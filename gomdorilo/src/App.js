@@ -10,8 +10,8 @@ function App() {
 
   const [posts, setPosts] = useState([
     { no: 120, title: '카페인, 얼마나 도움이 될까?', author: '몬스터에너지', date: '2024.10.01', recommendations: 13 },
-    { no: 114, title: '내가 엄준식을 찬양하게 된 이유', author: '기술승배', date: '2024.10.01', recommendations: 2 },
-    { no: 113, title: '엄준식, 요새 뭐하고 살고 있나?', author: '상시승배', date: '2024.09.30', recommendations: 1 },
+    { no: 114, title: '내가 엄준식을 찬양하게 된 이유', author: '기술숭배', date: '2024.10.01', recommendations: 2 },
+    { no: 113, title: '엄준식, 요새 뭐하고 살고 있나?', author: '상시숭배', date: '2024.09.30', recommendations: 1 },
     { no: 112, title: '기숙사에서 누가 라면을 먹었는가', author: '농심', date: '2024.09.30', recommendations: 5 },
     { no: 111, title: '몬스터에너지 가격인상, 어디까지 오를까?', author: '사장님돈주세요', date: '2024.09.30', recommendations: 8 },
     { no: 110, title: '다 갈아엎은 썰 푼다', author: '싸개', date: '2024.09.29', recommendations: 10 },
@@ -33,13 +33,10 @@ function App() {
   const handleTypeClick = (type) => {
     setSelectedType(type);
     if (type === '작성일') {
-      // Sort by date (most recent first)
       setFilteredPosts([...posts].sort((a, b) => new Date(b.date) - new Date(a.date)));
     } else if (type === '인기글') {
-      // Sort by recommendations (highest first)
       setFilteredPosts([...posts].sort((a, b) => b.recommendations - a.recommendations));
     } else {
-      // Keep posts as is for '팔로우'
       setFilteredPosts(posts);
     }
   };
