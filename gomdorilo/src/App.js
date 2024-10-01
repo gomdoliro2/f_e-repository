@@ -7,23 +7,41 @@ function App() {
   const [username, setUsername] = useState('Jin_venus08');
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+
   const [posts, setPosts] = useState([
-    '카페인, 얼마나 도움이 될까?',
-    '카페인 과다복용이 몸에 끼치는 영향들',
-    '나 오늘 못잔다',
-    '노이즈캔슬링, 정말 장점만 있을까?',
-    '카페인을 조금만 먹으면 괜찮다'
+    { no: 120, title: '카페인, 얼마나 도움이 될까?', author: '몬스터에너지', date: '2024.10.01', recommendations: 13 },
+    { no: 114, title: '내가 엄준식을 찬양하게 된 이유', author: '기술승배', date: '2024.10.01', recommendations: 2 },
+    { no: 113, title: '엄준식, 요새 뭐하고 살고 있나?', author: '상시승배', date: '2024.09.30', recommendations: 1 },
+    { no: 112, title: '기숙사에서 누가 라면을 먹었는가', author: '농심', date: '2024.09.30', recommendations: 5 },
+    { no: 111, title: '몬스터에너지 가격인상, 어디까지 오를까?', author: '사장님돈주세요', date: '2024.09.30', recommendations: 8 },
+    { no: 110, title: '다 갈아엎은 썰 푼다', author: '싸개', date: '2024.09.29', recommendations: 10 },
+    { no: 109, title: '하늘로 돌아간 외국 유명 가수들', author: '힘찔좌', date: '2024.09.28', recommendations: 11 },
+    { no: 108, title: '노이즈캔슬링, 정말 장점만 있을까?', author: '안들려요', date: '2024.09.28', recommendations: 3 },
+    { no: 107, title: '나 오늘 못잔다.', author: '과제', date: '2024.09.27', recommendations: 12 },
+    { no: 106, title: '카페인 과다복용 부작용 정리', author: '졸린청년', date: '2024.09.27', recommendations: 10 },
+    { no: 105, title: '우리 끝은 치킨집일까', author: 'Chris.P', date: '2024.09.27', recommendations: 21 },
   ]);
+
   const [filteredPosts, setFilteredPosts] = useState(posts);
   const [selectedType, setSelectedType] = useState('작성일');
 
   const handleSearch = () => {
-    const results = posts.filter(post => post.includes(searchTerm));
+    const results = posts.filter(post => post.title.includes(searchTerm));
     setFilteredPosts(results);
   };
 
   const handleTypeClick = (type) => {
     setSelectedType(type);
+    if (type === '작성일') {
+      // Sort by date (most recent first)
+      setFilteredPosts([...posts].sort((a, b) => new Date(b.date) - new Date(a.date)));
+    } else if (type === '인기글') {
+      // Sort by recommendations (highest first)
+      setFilteredPosts([...posts].sort((a, b) => b.recommendations - a.recommendations));
+    } else {
+      // Keep posts as is for '팔로우'
+      setFilteredPosts(posts);
+    }
   };
 
   return (
@@ -46,6 +64,7 @@ function App() {
           <img src={picture2} alt="face-symbol" className="face-icon" />
         </div>
       </div>
+
       <div className="type">
         <div className="type-item" onClick={() => handleTypeClick('작성일')}>
           <p id="date" style={{ color: selectedType === '작성일' ? '#000' : '#666' }}> 작성일 </p>
@@ -53,19 +72,36 @@ function App() {
         </div>
         <div className="type-item" onClick={() => handleTypeClick('인기글')}>
           <p id="fame" style={{ color: selectedType === '인기글' ? '#000' : '#666' }}> 인기글 </p>
-          {selectedType === '인기글' && <div className="underline" />}</div>
+          {selectedType === '인기글' && <div className="underline" />}
+        </div>
         <div className="type-item" onClick={() => handleTypeClick('팔로우')}>
-          <p id="follow" style={{ color: selectedType === '팔로우' ? '#000' : '#666' }}> 팔로우 </p>
+          <p id="follow" style={{ color: selectedType === '팔로우' ? '#000' : '#666' }}> 팔로우</p>
           {selectedType === '팔로우' && <div className="underline" />}
         </div>
         <button className="new">새 글 작성</button>
       </div>
+
+      <div className="line"></div>
+
       <div className="posts">
-        <ul>
-          {filteredPosts.map((post, index) => (
-            <li key={index}>{post}</li>
-          ))}
-        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th>no</th> <th>제목</th> <th>작성자</th> <th>작성일</th> <th>추천</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredPosts.map((post, index) => (
+              <tr key={index}> 
+              <td>{post.no}</td>
+                <td>{post.title}</td>
+                <td>{post.author}</td>
+                <td>{post.date}</td>
+                <td>{post.recommendations}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
