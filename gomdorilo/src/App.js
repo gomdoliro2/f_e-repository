@@ -11,7 +11,8 @@ function App() {
     '카페인, 얼마나 도움이 될까?',
     '카페인 과다복용이 몸에 끼치는 영향들',
     '나 오늘 못잔다',
-    '노이즈캔슬링, 정말 장점만 있을까?'
+    '노이즈캔슬링, 정말 장점만 있을까?',
+    '카페인을 조금만 먹으면 괜찮다'
   ]);
   const [filteredPosts, setFilteredPosts] = useState(posts);
 
@@ -43,7 +44,7 @@ function App() {
         </ul>
       </div>
       <div class="type">
-        
+
       </div>
     </div>
   );
