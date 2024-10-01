@@ -43,6 +43,7 @@ input:-webkit-autofill {
   width: 70%;
   height: 80%;
   margin-right: 5px;
+  cursor: pointer;
 }
 
 .search-icon {
@@ -51,6 +52,7 @@ input:-webkit-autofill {
   height: 30%;
   margin-left: -43px;
   align-items: center;
+  cursor: pointer;
 }
 
 .mypost {
@@ -60,6 +62,7 @@ input:-webkit-autofill {
   font-weight: 500;
   font-size: 1.2vw;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 span {
@@ -101,6 +104,7 @@ span {
   margin-left: 30%;
   border-radius: 8px;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .type-item {
@@ -108,6 +112,7 @@ span {
   flex-direction: column;
   align-items: center;
   margin: 0 5%;
+  cursor: pointer;
 }
 
 .underline {
