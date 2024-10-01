@@ -24,6 +24,15 @@
   width: 70%;
   height: 100%;
   margin-left: 18%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input:focus {
+  outline:none;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 500px #fff inset !important;
 }
 
 #search-bar {
@@ -59,4 +68,11 @@ span {
 
 #face-icon {
   display: flex;
+}
+
+.type {
+  display: flex;
+  color: #000;
+  width: 20%;
+  height: 30%;
 }

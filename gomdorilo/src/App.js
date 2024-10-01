@@ -8,6 +8,10 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [posts, setPosts] = useState([
+    '카페인, 얼마나 도움이 될까?',
+    '카페인 과다복용이 몸에 끼치는 영향들',
+    '나 오늘 못잔다',
+    '노이즈캔슬링, 정말 장점만 있을까?'
   ]);
   const [filteredPosts, setFilteredPosts] = useState(posts);
 
@@ -37,6 +41,9 @@ function App() {
             <li key={index}>{post}</li>
           ))}
         </ul>
+      </div>
+      <div class="type">
+        
       </div>
     </div>
   );
