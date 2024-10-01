@@ -7,6 +7,7 @@ function App() {
   const [username, setUsername] = useState('Jin_venus08');
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const [posts, setPosts] = useState([
     { no: 120, title: '카페인, 얼마나 도움이 될까?', author: '몬스터에너지', date: '2024.10.01', recommendations: 13 },
@@ -41,6 +42,10 @@ function App() {
     }
   };
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div className="container">
       <div className="header">
@@ -56,10 +61,21 @@ function App() {
             onChange={e => setSearchTerm(e.target.value)} />
           <img src={picture1} alt="search-symbol" className="search-icon" onClick={handleSearch} />
         </div>
-        <div className="mypost">
+        <div className="mypost" onClick={toggleMenu}>
           <p>내 게시물 <span> | </span> {username} </p>
           <img src={picture2} alt="face-symbol" className="face-icon" />
         </div>
+
+        {isMenuOpen && (
+          <div className="dropdown-menu">
+            <ul>
+              <li>내 정보</li>
+              <li>내 게시글</li>
+              <li>임시 저장</li>
+              <li>로그아웃</li>
+            </ul>
+          </div>
+        )}
       </div>
 
       <div className="type">
@@ -93,17 +109,18 @@ function App() {
           <tbody>
             {filteredPosts.map((post, index) => (
               <tr key={index}>
-              <td>{post.no}</td>
-              <td className="title-column">{post.title}</td>
-              <td className="author-column">{post.author}</td>
-              <td className="date-column">{post.date}</td>
-              <td>{post.recommendations}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                <td>{post.no}</td>
+                <td className="title-column">{post.title}</td>
+                <td className="author-column">{post.author}</td>
+                <td className="date-column">{post.date}</td>
+                <td>{post.recommendations}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-);}
+  );
+}
 
 export default App;
