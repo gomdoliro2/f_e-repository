@@ -15,10 +15,15 @@ function App() {
     '카페인을 조금만 먹으면 괜찮다'
   ]);
   const [filteredPosts, setFilteredPosts] = useState(posts);
+  const [selectedType, setSelectedType] = useState('작성일');
 
   const handleSearch = () => {
     const results = posts.filter(post => post.includes(searchTerm));
     setFilteredPosts(results);
+  };
+
+  const handleTypeClick = (type) => {
+    setSelectedType(type);
   };
 
   return (
@@ -28,7 +33,12 @@ function App() {
           <p>BamGallary</p>
         </div>
         <div className="search">
-          <input id="search-bar" type="text" placeholder="검색어를 입력하세요" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+          <input
+            id="search-bar"
+            type="text"
+            placeholder="검색어를 입력하세요"
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)} />
           <img src={picture1} alt="search-symbol" className="search-icon" onClick={handleSearch} />
         </div>
         <div className="mypost">
@@ -36,15 +46,33 @@ function App() {
           <img src={picture2} alt="face-symbol" className="face-icon" />
         </div>
       </div>
+      <div className="type">
+        <div className="type-item" onClick={() => handleTypeClick('작성일')}>
+          <p id="date" style={{ color: selectedType === '작성일' ? '#000' : '#666' }}>
+            작성일
+          </p>
+          {selectedType === '작성일' && <div className="underline" />}
+        </div>
+        <div className="type-item" onClick={() => handleTypeClick('인기글')}>
+          <p id="fame" style={{ color: selectedType === '인기글' ? '#000' : '#666' }}>
+            인기글
+          </p>
+          {selectedType === '인기글' && <div className="underline" />}
+        </div>
+        <div className="type-item" onClick={() => handleTypeClick('팔로우')}>
+          <p id="follow" style={{ color: selectedType === '팔로우' ? '#000' : '#666' }}>
+            팔로우
+          </p>
+          {selectedType === '팔로우' && <div className="underline" />}
+        </div>
+        <button className="new">새 글 작성</button>
+      </div>
       <div className="posts">
         <ul>
           {filteredPosts.map((post, index) => (
             <li key={index}>{post}</li>
           ))}
         </ul>
-      </div>
-      <div class="type">
-
       </div>
     </div>
   );
