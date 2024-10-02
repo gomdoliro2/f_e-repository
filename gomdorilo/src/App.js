@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import './App.css';
 import Header from './components/Header';
-import Bar from './components/Bar';
+import Bar from './components/Bar'; 
 import PostTable from './components/PostTable';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
+    const navigate = useNavigate();
+
     const [username] = useState('Jin_venus08');
     const [searchTerm, setSearchTerm] = useState('');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -46,6 +49,10 @@ function App() {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    const handleNewPostClick = () => {
+        navigate('/new-post'); 
+    };
+
     return (
         <div className="container">
             <Header 
@@ -56,10 +63,11 @@ function App() {
                 isMenuOpen={isMenuOpen} 
                 toggleMenu={toggleMenu} 
             />
-            <Bar
+            <Bar 
                 selectedType={selectedType} 
                 handleTypeClick={handleTypeClick} 
             />
+            <button className="new" onClick={handleNewPostClick}>새 글 작성</button>
             <div className="line"></div>
             <PostTable filteredPosts={filteredPosts} />
         </div>

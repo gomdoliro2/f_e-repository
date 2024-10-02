@@ -9,12 +9,8 @@ const Header = ({ username, searchTerm, setSearchTerm, handleSearch, isMenuOpen,
                 <p>BamGallary</p>
             </div>
             <div className="search">
-                <input
-                    id="search-bar"
-                    type="text"
-                    placeholder="검색어를 입력하세요"
-                    value={searchTerm}
-                    onChange={e => setSearchTerm(e.target.value)} 
+                <input id="search-bar" type="text" placeholder="검색어를 입력하세요" value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)} 
                 />
                 <img src={picture1} alt="search-symbol" className="search-icon" onClick={handleSearch} />
             </div>

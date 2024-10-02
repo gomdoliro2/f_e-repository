@@ -1,6 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Bar = ({ selectedType, handleTypeClick }) => {
+    const navigate = useNavigate();
+
+    const handleCreatePost = () => {
+        navigate('/create-post');
+    };
+
     return (
         <div className="type">
             <div className="type-item" onClick={() => handleTypeClick('작성일')}>
@@ -15,7 +22,6 @@ const Bar = ({ selectedType, handleTypeClick }) => {
                 <p id="follow" style={{ color: selectedType === '팔로우' ? '#000' : '#666' }}> 팔로우</p>
                 {selectedType === '팔로우' && <div className="underline" />}
             </div>
-            <button className="new">새 글 작성</button>
         </div>
     );
 };
