@@ -5,7 +5,7 @@ import Bar from './components/Bar';
 import PostTable from './components/PostTable';
 
 function App() {
-    const [username, setUsername] = useState('Jin_venus08');
+    const [username] = useState('Jin_venus08');
     const [searchTerm, setSearchTerm] = useState('');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [selectedType, setSelectedType] = useState('작성일');
