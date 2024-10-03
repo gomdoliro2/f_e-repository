@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import picture2 from '../img/frame.png';
 import picture3 from '../img/eye.png';
 import picture4 from '../img/Vector.png';
-
 
 const Header = ({ username, setSearchTerm, toggleMenu }) => {
     const [title, setTitle] = useState('');
@@ -10,6 +10,8 @@ const Header = ({ username, setSearchTerm, toggleMenu }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isPublic, setIsPublic] = useState(true); 
     const [date] = useState('2024.10.01');
+    
+    const navigate = useNavigate();
 
     const handleSaveDraft = () => {
         console.log('임시 저장:', { title, content });
@@ -32,11 +34,14 @@ const Header = ({ username, setSearchTerm, toggleMenu }) => {
         setTitle('');
         setContent('');
         setIsModalOpen(false);
-        window.open('/'); 
+
+        navigate('/post', {
+            state: { title, content, date, isPublic },
+        });
     };
 
     const handleLogoClick = () => {
-        window.open('/');
+        navigate('/');
     };
 
     return (
@@ -93,7 +98,7 @@ const Header = ({ username, setSearchTerm, toggleMenu }) => {
                             </button>
                         </div>
                         <div className="info">
-                            <p>작성자 : {username}</p>
+                            <p>작성자 : Jin_venus08</p>
                             <p>작성일 : {date}</p>
                         </div>
                         <button id="OK" onClick={handleFinalizePost}>작성 완료</button>

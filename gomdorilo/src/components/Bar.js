@@ -5,7 +5,7 @@ const Bar = ({ selectedType, handleTypeClick }) => {
     const navigate = useNavigate();
 
     const handleCreatePost = () => {
-        navigate('/create-post');
+        navigate('/new-post'); 
     };
 
     return (
@@ -18,9 +18,8 @@ const Bar = ({ selectedType, handleTypeClick }) => {
                 <p id="fame" style={{ color: selectedType === '인기글' ? '#000' : '#666' }}> 인기글 </p>
                 {selectedType === '인기글' && <div className="underline" />}
             </div>
-            <div className="type-item" onClick={() => handleTypeClick('팔로우')}>
-                <p id="follow" style={{ color: selectedType === '팔로우' ? '#000' : '#666' }}> 팔로우</p>
-                {selectedType === '팔로우' && <div className="underline" />}
+            <div className="type-item" onClick={handleCreatePost}>
+                <p id="new-post" style={{ color: '#000' }}> 새 글 작성 </p> 
             </div>
         </div>
     );
