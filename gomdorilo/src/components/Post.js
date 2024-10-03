@@ -9,6 +9,7 @@ const Post = () => {
 
     const [titleState] = useState(title);
     const [contentState] = useState(content);
+    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
 
     const handleEdit = () => {
         navigate('/new-post', {
@@ -17,7 +18,15 @@ const Post = () => {
     };
 
     const handleDelete = () => {
-        navigate('/');
+        setIsModalOpen(true);
+    };
+
+    const confirmDelete = () => {
+        navigate('/'); 
+    };
+
+    const cancelDelete = () => {
+        setIsModalOpen(false);
     };
 
     return (
@@ -47,8 +56,8 @@ const Post = () => {
                         readOnly
                         className="title-show"
                     />
-                        <button onClick={handleEdit} id="edit">수정</button>
-                        <button onClick={handleDelete} id="delete">삭제</button>
+                    <button onClick={handleEdit} id="edit">수정</button>
+                    <button onClick={handleDelete} id="delete">삭제</button>
                 </div>
                 <div className="thin-ubderline" />
                 <textarea
@@ -57,7 +66,7 @@ const Post = () => {
                     className="textarea"
                 />
                 <div className="thin-line" />
-                <div className="show">
+                <div className="show author-info">
                     <div className="good">
                         추천
                         <div className="margin">
@@ -70,12 +79,30 @@ const Post = () => {
                             <span id="num">0</span>
                         </div>
                     </div>
+                    <div className="author-details">
+                        <p>작성자: Jin_venus08</p>
+                        <button className="follow-button">팔로우</button>
+                    </div>
+                    <img src={picture2} alt="author" className="author-image" />
                 </div>
                 <div className="thin-line" />
+                <div className="comment-input">
+                    <textarea
+                        placeholder="댓글 작성"
+                    />
+                </div>
             </div>
+            {isModalOpen && (
+                <div className="modal">
+                    <div className="modal-type">
+                        <p id = "real">이 글을 삭제하시겠습니까?</p>
+                        <button onClick={cancelDelete} id = "cancel">취소</button>
+                        <button onClick={confirmDelete} id = "go">삭제</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
-    
-}    
+}
 
 export default Post;
