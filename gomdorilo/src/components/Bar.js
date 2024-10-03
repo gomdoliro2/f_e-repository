@@ -1,12 +1,6 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const Bar = ({ selectedType, handleTypeClick }) => {
-    const navigate = useNavigate();
-
-    const handleCreatePost = () => {
-        navigate('/new-post'); 
-    };
 
     return (
         <div className="type">
