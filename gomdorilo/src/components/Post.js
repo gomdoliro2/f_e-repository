@@ -9,8 +9,7 @@ const Post = () => {
 
     const [titleState] = useState(title);
     const [contentState] = useState(content);
-    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const handleEdit = () => {
         navigate('/new-post', {
             state: { title: titleState, content: contentState },
@@ -95,9 +94,9 @@ const Post = () => {
             {isModalOpen && (
                 <div className="modal">
                     <div className="modal-type">
-                        <p id = "real">이 글을 삭제하시겠습니까?</p>
-                        <button onClick={cancelDelete} id = "cancel">취소</button>
-                        <button onClick={confirmDelete} id = "go">삭제</button>
+                        <p id="real">이 글을 삭제하시겠습니까?</p>
+                        <button onClick={cancelDelete} id="cancel">취소</button>
+                        <button onClick={confirmDelete} id="go">삭제</button>
                     </div>
                 </div>
             )}
