@@ -1,10 +1,11 @@
 import React from 'react';
+import '../styled_components/PostTable.css';
 
 const PostTable = ({ filteredPosts }) => {
     return (
-        <div className="posts">
+        <div className="posts-container">
             <table className="styled-table">
-                <thead>
+                <thead className="table-head">
                     <tr>
                         <th>no</th>
                         <th className="title-column">제목</th>
@@ -13,14 +14,14 @@ const PostTable = ({ filteredPosts }) => {
                         <th>추천</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="table-body">
                     {filteredPosts.map((post, index) => (
                         <tr key={index}>
-                            <td>{post.no}</td>
-                            <td className="title-column">{post.title}</td>
-                            <td className="author-column">{post.author}</td>
-                            <td className="date-column">{post.date}</td>
-                            <td>{post.recommendations}</td>
+                            <td className="table-cell">{post.no}</td>
+                            <td className={`table-cell title-column`}>{post.title}</td>
+                            <td className={`table-cell author-column`}>{post.author}</td>
+                            <td className={`table-cell date-column`}>{post.date}</td>
+                            <td className="table-cell">{post.recommendations}</td>
                         </tr>
                     ))}
                 </tbody>

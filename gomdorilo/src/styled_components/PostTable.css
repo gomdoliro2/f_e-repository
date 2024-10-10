@@ -1,0 +1,67 @@
+.posts-container {
+    font-family: 'Pretendard', sans-serif;
+    width: 100%;
+}
+
+.styled-table {
+    width: 68%;
+    margin-left: 16%;
+    font-size: 18px;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+.table-head th {
+    position: relative;
+    font-size: 20px;
+    font-weight: 500;
+    padding-top: 2.5%;
+    padding-bottom: 2.5%;
+    color: #000;
+    padding-left: 6%;
+}
+
+.table-head th::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 102%;
+    height: 1px;
+    background-color: #999;
+}
+
+.table-body tr {
+    position: relative;
+}
+
+.table-body tr::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100.5%;
+    height: 1px;
+    background-color: #999;
+}
+
+.table-cell {
+    padding: 2%;
+    border: none; 
+    font-weight: 400;
+    white-space: nowrap;
+}
+
+.title-column {
+    padding-right: 1%;
+}
+
+.author-column {
+    text-align: center;
+    padding-left: 2%; 
+}
+
+.date-column {
+    text-align: center;
+    color: #999;
+}

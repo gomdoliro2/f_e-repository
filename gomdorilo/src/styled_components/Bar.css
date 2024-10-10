@@ -1,0 +1,30 @@
+.type-container {
+    font-family: 'Pretendard', sans-serif;
+    display: flex;
+    padding-top: 2%;
+    width: 80%;
+    padding-left: 15.8%;
+}
+
+.type-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 2%;
+    cursor: pointer;
+}
+
+.type-text {
+    color: #666;
+    font-size: 24px;
+}
+
+.type-text.selected {
+    color: #000;
+}
+
+.underline {
+    width: 178%;
+    height: 4px;
+    background-color: #1F8BFF;
+}

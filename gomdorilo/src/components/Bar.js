@@ -1,20 +1,30 @@
 import React from 'react';
+import '../styled_components/Bar.css'; 
+import Header from './Header.js';
 
-const Bar = ({ selectedType, handleTypeClick }) => {
-
+const Bar = ({ username, searchTerm, setSearchTerm, handleSearch, toggleMenu, selectedType, handleTypeClick }) => {
     return (
-        <div className="type">
-            <div className="type-item" onClick={() => handleTypeClick('작성일')}>
-                <p id="date" style={{ color: selectedType === '작성일' ? '#000' : '#666' }}> 작성일 </p>
-                {selectedType === '작성일' && <div className="underline" />}
-            </div>
-            <div className="type-item" onClick={() => handleTypeClick('인기글')}>
-                <p id="fame" style={{ color: selectedType === '인기글' ? '#000' : '#666' }}> 인기글 </p>
-                {selectedType === '인기글' && <div className="underline" />}
-            </div>
-            <div className="type-item" onClick={() => handleTypeClick('팔로우')}>
-                <p id="follow" style={{ color: selectedType === '팔로우' ? '#000' : '#666' }}> 팔로우 </p>
-                {selectedType === '팔로우' && <div className="underline" />}
+        <div>
+            <Header 
+                username={username} 
+                searchTerm={searchTerm} 
+                setSearchTerm={setSearchTerm} 
+                handleSearch={handleSearch} 
+                toggleMenu={toggleMenu} 
+            />
+            <div className="type-container">
+                {['작성일', '인기글', '팔로우'].map(type => (
+                    <div 
+                        key={type} 
+                        className="type-item" 
+                        onClick={() => handleTypeClick(type)}
+                    >
+                        <p className={`type-text ${selectedType === type ? 'selected' : ''}`}>
+                            {type}
+                        </p>
+                        {selectedType === type && <div className="underline" />}
+                    </div>
+                ))}
             </div>
         </div>
     );

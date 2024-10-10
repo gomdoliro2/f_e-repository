@@ -1,0 +1,71 @@
+.header-content {
+    font-family: 'Pretendard', sans-serif;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-bottom: 1px solid #B3B3B3;
+    padding: 2%;
+    height: 8vh;
+}
+
+.logo {
+    font-size: 2vw;
+    font-weight: bold;
+    padding-left: 6%;
+    margin-bottom: 1%;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    width: 70%;
+    height: 100%;
+    margin-left: 18%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.search-input {
+    border: 1px solid #000;
+    border-radius: 8px;
+    padding: 1%;
+    padding-right: 30%;
+    margin-left: 1%;
+    font-size: 16px;
+    padding-left: 6%;
+    width: 75%;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.search-input:focus {
+    outline: none;
+}
+
+.search-input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 500px #fff inset !important;
+}
+
+.search-icon {
+    display: flex;
+    width: 4%;
+    height: 30%;
+    margin-left: -50px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.my-post-container {
+    display: flex;
+    align-items: center;
+    padding-right: 8.5%;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    margin-left: 10%;
+}
+
+.face-icon {
+    margin-left: 5px;
+}
