@@ -134,12 +134,6 @@
     font-weight: 600;
 }
 
-.button {
-    padding: 1%;
-    border: none;
-    cursor: pointer;
-}
-
 .edit-button {
     width: 14%;
     font-size: 22px;

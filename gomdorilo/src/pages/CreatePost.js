@@ -75,7 +75,7 @@ const CreatePost = ({ setSearchTerm, toggleMenu }) => {
 
             {isModalOpen && (
                 <div className="modal">
-                    <div className="modal-content">
+                    <div className="modal-contents">
                         <button className="close-button" onClick={handleCloseModal}>X</button>
                         <h2 className="main-title">작성을 완료하시겠습니까?</h2>
                         <div className="toggle-group">

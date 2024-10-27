@@ -123,11 +123,11 @@
     align-items: center;
 }
 
-.modal-content {
+.modal-contents {
     font-family: 'Pretendard', sans-serif;
     background-color: #fff;
     width: 30%;
-    height: 30%;
+    height: 40%;
     padding: 1%;
     border-radius: 8px;
     position: relative;
@@ -136,6 +136,7 @@
 
 .close-button {
     padding-left: 90%;
+    padding-top: 3%;
     background: none;
     border: none;
     font-size: 24px;
@@ -146,7 +147,7 @@
 .main-title {
     font-size: 26px;
     font-weight: bold;
-    padding-top: 6%;
+    padding-top: 13%;
 }
 
 .toggle-group {
@@ -174,7 +175,7 @@
 .finalize-button {
     display: flex;
     justify-content: center;
-    font-size: 16px;
+    font-size: 20px;
     padding: 3%;
     margin-left: 18%;
     margin-top: 10%;
