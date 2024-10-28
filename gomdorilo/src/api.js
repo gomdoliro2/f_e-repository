@@ -13,6 +13,28 @@ export const saveBoard = async (boardData) => {
     return response.data;
 };
 
+const token = '<발급된 토큰>'; 
+
+const postData = {
+    email: '해당 이메일',
+    password: '비밀번호'  
+};
+
+axios.post('https://port-0-b-e-repository-m1qaons0275b16c0.sel4.cloudtype.app/members/sign-in', postData, {
+    headers: {
+        'Authorization': `Bearer ${token}`, 
+        'grantedType' : `Bearer`,
+        'accessToken' : `발급된 토큰`,
+        'refreshToken' : `발급된 토큰`
+    }
+})
+.then(response => {
+    console.log('Response data:', response.data); 
+})
+.catch(error => {
+    console.error('There was an error making the request:', error);
+});
+
 export const handleSignIn = async () => {
     try {
         const response = await axios.get(`${API_BASE_URL}/sign_up`);
