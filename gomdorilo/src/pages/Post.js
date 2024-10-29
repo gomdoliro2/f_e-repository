@@ -78,9 +78,10 @@ const Post = () => {
         </div>
             <div className="comment-section">
                 <form id="formedit">
-                    <textarea id="comment" name="comment" rows="4" placeholder='댓글 작성' required></textarea>
+                    <textarea id="comment" placeholder='댓글 작성' ></textarea>
                 </form>
-                <button className="add-comment-button">작성하기</button>
+                <button className="add-comment-button">작성</button>
+                <button className="close-comment-button">작성</button>
             </div>
             {isModalOpen && (
                 <div className="modal">
