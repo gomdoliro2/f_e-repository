@@ -14,6 +14,8 @@ const Post = () => {
     const [titleState, setTitleState] = useState(title);
     const [contentState, setContentState] = useState(content);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [comment, setComment] = useState('');
+    const [comments, setComments] = useState([]);
 
     const handleEdit = () => {
         navigate('/new-post', {
@@ -32,6 +34,18 @@ const Post = () => {
     const cancelDelete = () => {
         setIsModalOpen(false);
     };
+
+    const handleCommentChange = (e) => setComment(e.target.value);
+
+    const handleCommentSubmit = (e) => {
+        e.preventDefault();
+        if (comment.trim()) {
+            setComments((prevComments) => [...prevComments, comment.trim()]);
+            setComment('');
+        }
+    };
+    
+    const handleCommentCancel = () => setComment('');    
 
     return (
         <div className="post-container">
@@ -54,34 +68,47 @@ const Post = () => {
                     onChange={(e) => setContentState(e.target.value)}
                 />
                 <div className="divider">
-                <div className="author-info">
-                    <div id="comm">
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <img src={picture3} alt="heart" id="heart" />
+                    <div className="author-info">
+                        <div id="comm">
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <img src={picture3} alt="heart" id="heart" />
+                            </div>
                         </div>
+                        <div id="comm">
+                            추천
+                            <div id="small">0</div>
+                        </div>
+                        <div id="comm">
+                            댓글
+                            <div id="small">0</div>
+                        </div>
+                        <div className="author-details">
+                            <p id="postwrite">{username}</p>
+                            <button className="follow-button">팔로우</button>
+                        </div>
+                        <img src={picture2} alt="face-symbol" className="author-image" />
                     </div>
-                    <div id="comm">
-                        추천
-                        <div id="small">0</div>
-                    </div>
-                    <div id="comm">
-                        댓글
-                        <div id="small">0</div>
-                    </div>
-                    <div className="author-details">
-                        <p id="postwrite">  {username}</p>
-                        <button className="follow-button">팔로우</button>
-                    </div>
-                    <img src={picture2} alt="face-symbol" className="author-image" />
                 </div>
             </div>
-        </div>
             <div className="comment-section">
-                <form id="formedit">
-                    <textarea id="comment" placeholder='댓글 작성' ></textarea>
+                <form id="formedit" onSubmit={handleCommentSubmit}>
+                    <textarea 
+                        id="comment" 
+                        placeholder='댓글 작성' 
+                        value={comment} 
+                        onChange={handleCommentChange}
+                    ></textarea>
+                    <button type="submit" className="add-comment-button">작성</button>
+                    <button type="button" className="close-comment-button" onClick={handleCommentCancel}>취소</button>
                 </form>
-                <button className="add-comment-button">작성</button>
-                <button className="close-comment-button">작성</button>
+                <div className="comments-list">
+                    {comments.map((comment, index) => (
+                        <div key={index} className="comment-item">
+                            {comment}
+                        </div>
+                    ))}
+                </div>
+
             </div>
             {isModalOpen && (
                 <div className="modal">
