@@ -11,7 +11,7 @@
     margin-bottom: 2%;
     box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.2);
     padding: 2%;
-    width: 33%;
+    width: 31%;
     height: 60%;
 }
 
@@ -20,7 +20,7 @@
     font-size: 70px;
     font-weight: 600;
     margin-bottom: 5%;
-    margin-top: 8%;
+    margin-top: 12%;
     color: #1F8BFF;
 }
 
@@ -54,7 +54,7 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 24px;
 }
 
 .signin-button:hover {
@@ -70,7 +70,7 @@
     color: #1F8BFF;
     border: none;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .nickname-status {

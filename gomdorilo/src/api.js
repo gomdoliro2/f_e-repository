@@ -32,7 +32,7 @@ axios.post('https://port-0-b-e-repository-m1qaons0275b16c0.sel4.cloudtype.app/me
     console.log('Response data:', response.data); 
 })
 .catch(error => {
-    console.error('There was an error making the request:', error);
+    console.error('error', error);
 });
 
 export const handleSignIn = async () => {
@@ -41,7 +41,7 @@ export const handleSignIn = async () => {
         return response.data;
     } catch (error) {
         console.error("Error during sign-in:", error.response ? error.response.data : error.message);
-        throw new Error("Failed to sign in. Please try again.");  
+        throw new Error("Failed");  
     }
 }
 

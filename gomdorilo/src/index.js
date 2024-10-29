@@ -11,13 +11,12 @@ import axios from "axios";
 axios.defaults.baseURL = "https://port-0-b-e-repository-m1qaons0275b16c0.sel4.cloudtype.app";
 axios.defaults.withCredentials = true;
 
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Router>
         <Routes>
             <Route path="/" element={<Login />} />
-            <Route path="/main/*" element={<Main />} /> 
+            <Route path="/main" element={<Main />} /> 
             <Route path="/new-post" element={<CreatePost />} />
             <Route path="/post" element={<Post />} />
             <Route path="/signin" element={<SignIn />} />
