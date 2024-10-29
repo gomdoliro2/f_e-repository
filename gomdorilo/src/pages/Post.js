@@ -47,14 +47,13 @@ const Post = () => {
                     <button className="edit-button" onClick={handleEdit}>수정</button>
                     <button className="delete-button" onClick={handleDelete}>삭제</button>
                 </div>
-                <hr className="divider" />
                 <textarea 
                     className="textarea" 
                     value={contentState} 
                     readOnly 
                     onChange={(e) => setContentState(e.target.value)}
                 />
-                <hr className="divider" />
+                <div className="divider">
                 <div className="author-info">
                     <div id="comm">
                         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -70,13 +69,13 @@ const Post = () => {
                         <div id="small">0</div>
                     </div>
                     <div className="author-details">
-                        <p>작성자: {username}</p>
+                        <p id="postwrite">  {username}</p>
                         <button className="follow-button">팔로우</button>
                     </div>
                     <img src={picture2} alt="face-symbol" className="author-image" />
                 </div>
             </div>
-
+        </div>
             <div className="comment-section">
                 <textarea
                     type="text" 

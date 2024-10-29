@@ -66,9 +66,10 @@
 }
 
 .divider {
+    background-color: #F2F2F2;
+    border-radius: 8px;
     width: 100%;
-    border: 0.6px solid #000;
-    margin: 20px 0;
+    margin-top: 20%;
 }
 
 .author-info {
@@ -82,26 +83,37 @@
     margin: 30px 0;
 }
 
+#postwrite {
+    display: flex;
+    font-size: 24px;
+    margin-right: -800%;
+    padding: 10%;
+}
+
 .author-details {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    margin-bottom: 3%;
 }
 
 .author-image {
-    margin-right: 6%;
-    width: 10%;
+    display: flex;
+    margin-right: 10%;
+    width: 7%;
     height: 4%;
     border-radius: 50%;
 }
 
 .follow-button {
-    border: 1px solid #000;
-    background-color: #fff;
-    color: #000;
-    padding: 6%;
-    width: 70%;
-    border-radius: 5px;
+    background-color: #000;
+    color: #fff;
+    padding: 10%;
+    width: 160%;
+    margin-right: -800%;
+    margin-top: -30%;
+    border-radius: 8px;
+    font-size: 16px;
     cursor: pointer;
 }
 
@@ -185,6 +197,9 @@
 
 #comm {
     text-align: center;
+    margin-right: -50%;
+    margin-top: 4%;
+    margin-bottom: 4%;
 }
 
 #small {
