@@ -241,7 +241,7 @@
     cursor: pointer;
 }
 
-.add-comment-button:focus {
+.add-comment-button:hover {
     background-color: #1F8BFF;
     cursor: pointer;
 }

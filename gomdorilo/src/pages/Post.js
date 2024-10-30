@@ -109,7 +109,7 @@ const Post = () => {
                             </div>
                         ))
                     ) : (
-                        <div className="no-comments">댓글이 없습니다.</div> 
+                        <div className="no-comments">댓글이 없습니다</div> 
                     )}
                 </div>
             </div>
