@@ -20,8 +20,8 @@ const postData = {
     password: '비밀번호'  
 };
 
-axios.post('https://port-0-b-e-repository-m1qaons0275b16c0.sel4.cloudtype.app/members/sign-in', postData, {
-    headers: {
+axios.post('https://port-0-b-e-repository-m1qaons0275b16c0.sel4.cloudtype.app/board/save', postData, {
+    header: {
         'Authorization': `Bearer ${token}`, 
         'grantedType' : `Bearer`,
         'accessToken' : `발급된 토큰`,
@@ -44,6 +44,16 @@ export const handleSignIn = async () => {
         throw new Error("Failed");  
     }
 }
+
+export const commentData = async () => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/board/{boardId}/comments`);
+        return response.data;
+    } catch (error) {
+        console.error("Error comments:", error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
 
 export const getAllBoards = async () => {
     try {

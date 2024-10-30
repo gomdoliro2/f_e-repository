@@ -11,8 +11,8 @@ const Post = () => {
     const { id = '', title = '', content = '' } = location.state || {};
 
     const username = localStorage.getItem('username') || 'Jin_venus08'; 
-    const [titleState, setTitleState] = useState(title);
-    const [contentState, setContentState] = useState(content);
+    const [titleState] = useState(title);
+    const [contentState] = useState(content);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState([]);
@@ -27,13 +27,8 @@ const Post = () => {
         });
     };
 
-    const handleDelete = () => {
-        setIsModalOpen(true);
-    };
-
-    const cancelDelete = () => {
-        setIsModalOpen(false);
-    };
+    const handleDelete = () => setIsModalOpen(true);
+    const cancelDelete = () => setIsModalOpen(false);
 
     const handleCommentChange = (e) => setComment(e.target.value);
 
@@ -42,10 +37,17 @@ const Post = () => {
         if (comment.trim()) {
             setComments((prevComments) => [...prevComments, comment.trim()]);
             setComment('');
+        } else {
+            alert("댓글을 입력해 주세요.");
         }
     };
     
     const handleCommentCancel = () => setComment('');    
+
+    const handlePostDelete = () => {
+        console.log(`${id} deleted.`);
+        setIsModalOpen(false);
+    };
 
     return (
         <div className="post-container">
@@ -56,7 +58,6 @@ const Post = () => {
                         className="title-show" 
                         value={titleState} 
                         readOnly 
-                        onChange={(e) => setTitleState(e.target.value)}
                     />
                     <button className="edit-button" onClick={handleEdit}>수정</button>
                     <button className="delete-button" onClick={handleDelete}>삭제</button>
@@ -65,7 +66,6 @@ const Post = () => {
                     className="textarea" 
                     value={contentState} 
                     readOnly 
-                    onChange={(e) => setContentState(e.target.value)}
                 />
                 <div className="divider">
                     <div className="author-info">
@@ -80,7 +80,7 @@ const Post = () => {
                         </div>
                         <div id="comm">
                             댓글
-                            <div id="small">0</div>
+                            <div id="small">{comments.length}</div> 
                         </div>
                         <div className="author-details">
                             <p id="postwrite">{username}</p>
@@ -102,20 +102,23 @@ const Post = () => {
                     <button type="button" className="close-comment-button" onClick={handleCommentCancel}>취소</button>
                 </form>
                 <div className="comments-list">
-                    {comments.map((comment, index) => (
-                        <div key={index} className="comment-item">
-                            {comment}
-                        </div>
-                    ))}
+                    {comments.length > 0 ? (
+                        comments.map((comment, index) => (
+                            <div key={index} className="comment-item">
+                                {comment}
+                            </div>
+                        ))
+                    ) : (
+                        <div className="no-comments">댓글이 없습니다.</div> 
+                    )}
                 </div>
-
             </div>
             {isModalOpen && (
                 <div className="modal">
                     <div className="modal-content">
                         <p className="modal-text"> 이 글을 삭제하시겠습니까?</p>
                         <button className="cancel-button" onClick={cancelDelete}>취소</button>
-                        <button className="modal-delete-button">삭제</button>
+                        <button className="modal-delete-button" onClick={handlePostDelete}>삭제</button>
                     </div>
                 </div>
             )}
