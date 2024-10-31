@@ -13,23 +13,20 @@ export const saveBoard = async (boardData) => {
     return response.data;
 };
 
-const token = '<발급된 토큰>'; 
+const token = 'your_valid_token';
 
 const postData = {
-    email: '해당 이메일',
-    password: '비밀번호'  
+    email: encodeURIComponent('user@example.com'),
+    password: encodeURIComponent('yourPassword123!')
 };
 
-axios.post('https://port-0-b-e-repository-m1qaons0275b16c0.sel4.cloudtype.app/board/save', postData, {
-    header: {
-        'Authorization': `Bearer ${token}`, 
-        'grantedType' : `Bearer`,
-        'accessToken' : `발급된 토큰`,
-        'refreshToken' : `발급된 토큰`
+axios.post('https://port-0-b-e-repository-m1qaons0275b16c0.sel4.cloudtype.app', postData, {
+    headers: {
+        'Authorization': `Bearer ${token}`,
     }
 })
 .then(response => {
-    console.log('Response data:', response.data); 
+    console.log('Response data:', response.data);
 })
 .catch(error => {
     console.error('error', error);
