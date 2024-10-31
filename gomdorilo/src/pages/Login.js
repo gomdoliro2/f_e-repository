@@ -6,7 +6,7 @@ import '../styled_components/SignIn.css';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [error, setError] = useState();
     const [loading, setLoading] = useState(false); 
     const navigate = useNavigate();
 
@@ -19,21 +19,27 @@ const Login = () => {
         setLoading(true); 
 
         try {
-            const response = await axios.post('https://port-0-b-e-repository-m1qaons0275b16c0.sel4.cloudtype.app/members/sign-in', {
-                email,
-                password,
-            });
-            console.log(response.data);
-
-            const token = response.data.token;
-            localStorage.setItem('token', token);
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            const token = 'token';
             navigate('/main'); 
+
+            const response = await axios.post('https://port-0-b-e-repository-m1qaons0275b16c0.sel4.cloudtype.app/members/sign-in', 
+                {
+                    email: email,
+                    password: password
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            console.log('Response data:', response.data);
+
         } catch (error) {
-            console.error('로그인 실패:', error);
-            alert('로그인 실패');
-        } finally {
-            setLoading(false);
+            console.error('Login failed:', error);
+            setError('Login failed. Please check your email and password.');
         }
     };
 

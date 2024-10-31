@@ -4,33 +4,29 @@ const API_BASE_URL = 'https://port-0-b-e-repository-m1qaons0275b16c0.sel4.cloudt
 
 export const saveBoard = async (boardData) => {
     const token = localStorage.getItem('jwtToken'); 
-    const response = await axios.post(`${API_BASE_URL}/board/save`, boardData, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-        },
-    });
-    return response.data;
-};
 
-const token = 'your_valid_token';
-
-const postData = {
-    email: encodeURIComponent('user@example.com'),
-    password: encodeURIComponent('yourPassword123!')
-};
-
-axios.post('https://port-0-b-e-repository-m1qaons0275b16c0.sel4.cloudtype.app', postData, {
-    headers: {
-        'Authorization': `Bearer ${token}`,
+    if (!token) {
+        alert('내용 작성이 완료되었습니다');
+        return;
     }
-})
-.then(response => {
-    console.log('Response data:', response.data);
-})
-.catch(error => {
-    console.error('error', error);
-});
+
+    try {
+        const response = await axios.post('https://port-0-b-e-repository-m1qaons0275b16c0.sel4.cloudtype.app/board/save', boardData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+        console.log("Response data:", response.data);
+        return response.data;
+    } catch (error) {
+        if (error.response) {
+            console.log("Error data:", error.response.data);
+            console.log("Status code:", error.response.status);
+        }
+        throw error;
+    }
+};    
 
 export const handleSignIn = async () => {
     try {
