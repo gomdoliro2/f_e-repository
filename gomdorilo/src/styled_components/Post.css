@@ -27,11 +27,19 @@
 }
 
 .title-show {
-    width: 100%;
+    width: 160%;
     height: 40px;
     border: none;
+    outline: none; 
+    padding-top: 3%;
+    padding-bottom: 3%;
     font-size: 28px;
     background: transparent;
+}
+
+.black-line {
+    border-bottom: 0.5px solid #000; 
+    width: 100.5%;
 }
 
 .title-show:read-only {
@@ -41,6 +49,8 @@
 .textarea {
     width: 100%;
     height: 300px;
+    padding-top: 3%;
+    padding-left: 1%;
     font-size: 18px;
     border: none;
     resize: none;
@@ -119,24 +129,23 @@
 .modal-content {
     background-color: white;
     width: 28%;
-    height: 30%;
+    height: 25%;
     padding: 5%;
     border-radius: 8px;
     text-align: center;
 }
 
 .modal-text {
-    padding: 2%;
-    margin-bottom: 18%;
-    font-size: 24px;
+    margin-bottom: 15%;
+    font-size: 32px;
     font-weight: 600;
+    padding-top: -5%;
 }
 
 .edit-button {
     width: 14%;
-    font-size: 22px;
+    font-size: 24px;
     padding: 1%;
-    margin-top: 3%;
     border-radius: 8px;
     color: #fff;
     border: none;
@@ -145,11 +154,10 @@
 
 .delete-button {
     margin-left: 2%;
-    margin-top: 3%;
     padding: 1%;
     width: 14%;
     border: none;
-    font-size: 22px;
+    font-size: 24px;
     border-radius: 8px;
     color: #fff;
     background-color: #FF1F1F; 
@@ -159,18 +167,18 @@
     width: 30%; 
     margin-left: 2%;
     padding: 3%;
-    font-size: 16px;
+    font-size: 24px;
     border-radius: 5px;
     color: #fff; 
     border: none;
     background-color: #FF1F1F;
-    margin-top: 3%;
+    margin-top: -10%;
 }
 
 .cancel-button {
     width: 30%;
     padding: 3%;
-    font-size: 16px;
+    font-size: 24px;
     border-radius: 5px;
     border: none;
     background-color: #999;

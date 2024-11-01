@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '../components/Header.js';
 import '../styled_components/CreatePost.css';
 import picture3 from '../img/eye.png';
 import picture4 from '../img/Vector.png';
-import { saveBoard } from '../api.js';
+import { updateBoard } from '../api.js'; 
 
-const CreatePost = ({ setSearchTerm, toggleMenu }) => {
-    const [newBoard, setNewBoard] = useState({ title: '', content: '' });
+const PostEdit = () => {
+    const location = useLocation();
+    const { title, content } = location.state || { title: '', content: '' };
+    const [newBoard, setNewBoard] = useState({ title, content });
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isPublic, setIsPublic] = useState(true);
     const username = localStorage.getItem('username') || 'Jin_venus08';
@@ -20,14 +22,14 @@ const CreatePost = ({ setSearchTerm, toggleMenu }) => {
         }
 
         try {
-            console.log('Saving board:', { ...newBoard, username, isPublic }); 
-            const savedBoard = await saveBoard({ ...newBoard, username, isPublic });
-            console.log('게시글이 저장되었습니다:', savedBoard);
+            console.log('Updating board:', { ...newBoard, username, isPublic }); 
+            const updatedBoard = await updateBoard({ ...newBoard, username, isPublic });
+            console.log('게시글이 수정되었습니다:', updatedBoard);
 
             navigate('/post', { state: { title: newBoard.title, content: newBoard.content } });
         } catch (error) {
-            console.error('게시글 저장 실패:', error);
-            alert('게시글 저장 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            console.error('게시글 수정 실패:', error);
+            alert('게시글 수정 중 오류가 발생했습니다. 다시 시도해 주세요.');
         }
     };
 
@@ -50,7 +52,7 @@ const CreatePost = ({ setSearchTerm, toggleMenu }) => {
 
     return (
         <>
-            <Header username={username} setSearchTerm={setSearchTerm} toggleMenu={toggleMenu} />
+            <Header username={username} />
             <div className="post-form">
                 <input
                     type="text"
@@ -92,4 +94,4 @@ const CreatePost = ({ setSearchTerm, toggleMenu }) => {
     );
 };
 
-export default CreatePost;
+export default PostEdit;

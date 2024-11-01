@@ -5,6 +5,7 @@ import Main from './pages/Main.js';
 import CreatePost from './pages/CreatePost.js'; 
 import Login from './pages/Login.js';
 import Post from './pages/Post.js'; 
+import PostEdit from './pages/PostEdit.js';
 import SignIn from './pages/SignIn.js'; 
 import axios from "axios";
 
@@ -20,6 +21,7 @@ root.render(
             <Route path="/new-post" element={<CreatePost />} />
             <Route path="/post" element={<Post />} />
             <Route path="/signin" element={<SignIn />} />
+            <Route path="/post-edit" element={<PostEdit />} /> 
         </Routes>
     </Router>
 );

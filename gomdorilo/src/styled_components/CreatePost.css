@@ -55,8 +55,8 @@
     width: 100%;
     height: 40px;
     border: none;
-    outline: none;
-    border-bottom: 0.5px solid #000;
+    outline: none; 
+    border-bottom: 0.5px solid #000; 
     padding-top: 3%;
     padding-bottom: 3%;
     font-size: 28px;
