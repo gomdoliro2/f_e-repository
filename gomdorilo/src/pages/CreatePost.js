@@ -20,7 +20,7 @@ const CreatePost = ({ setSearchTerm, toggleMenu }) => {
         }
 
         try {
-            console.log('Saving board:', { ...newBoard, username, isPublic }); 
+            console.log('Saving board with data:', { ...newBoard, username, isPublic });
             const savedBoard = await saveBoard({ ...newBoard, username, isPublic });
             console.log('게시글이 저장되었습니다:', savedBoard);
 
@@ -44,7 +44,7 @@ const CreatePost = ({ setSearchTerm, toggleMenu }) => {
     };
 
     const handleFinalizePost = async () => {
-        await handleSave(); 
+        await handleSave();
         handleCloseModal();
     };
 
