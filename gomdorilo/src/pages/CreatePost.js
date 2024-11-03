@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header.js';
 import '../styled_components/CreatePost.css';
@@ -48,6 +48,11 @@ const CreatePost = ({ setSearchTerm, toggleMenu }) => {
         handleCloseModal();
     };
 
+    useEffect(() => {
+        const token = localStorage.getItem('jwtToken');
+        console.log('현재 토큰:', token); 
+    }, []);
+    
     return (
         <>
             <Header username={username} setSearchTerm={setSearchTerm} toggleMenu={toggleMenu} />

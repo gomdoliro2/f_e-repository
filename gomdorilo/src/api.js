@@ -4,7 +4,20 @@ const API_BASE_URL = 'https://port-0-b-e-repository-m1qaons0275b16c0.sel4.cloudt
 
 // 기본 설정
 axios.defaults.baseURL = API_BASE_URL;
-axios.defaults.withCredentials = true; 
+
+// 토큰 저장
+axios.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('jwtToken'); 
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
 
 // 게시글 저장
 export const saveBoard = async (boardData) => {
@@ -72,17 +85,9 @@ export const getAllBoards = async () => {
 
 // 댓글 작성
 export const commentData = async (boardId, commentData) => {
-    const token = localStorage.getItem('jwtToken'); 
-
-    if (!token) {
-        alert('댓글 작성에 실패했습니다.');
-        return null; 
-    }
-
     try {
         const response = await axios.post(`${API_BASE_URL}/board/${boardId}/comments`, commentData, {
             headers: {
-                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
             },
         });
