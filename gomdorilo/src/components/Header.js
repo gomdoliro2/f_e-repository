@@ -3,8 +3,7 @@ import '../styled_components/Header.css';
 import picture1 from '../img/material-symbols_search.png';
 import picture2 from '../img/frame.png';
 
-const Header = ({ username = '', searchTerm, setSearchTerm, handleSearch, toggleMenu }) => {
-    
+const Header = ({ authorNickname, searchTerm, setSearchTerm, handleSearch, toggleMenu }) => {
     return (
         <div className="header-content">
             <div className="logo">
@@ -26,7 +25,7 @@ const Header = ({ username = '', searchTerm, setSearchTerm, handleSearch, toggle
                 />
             </div>
             <div className="my-post-container" onClick={toggleMenu}>
-                <p>내 게시물 <span> | </span> {username} </p> 
+                <p>내 게시물 <span> | </span> {authorNickname} </p> 
                 <img src={picture2} alt="face-symbol" className="face-icon" />
             </div>
         </div>

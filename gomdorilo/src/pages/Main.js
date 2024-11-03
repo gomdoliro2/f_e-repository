@@ -13,6 +13,7 @@ function Main() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [selectedType, setSelectedType] = useState('작성일');
     const [filteredPosts, setFilteredPosts] = useState([]);
+    const username = localStorage.getItem('username') || 'Jin_venus08';
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
@@ -93,7 +94,7 @@ function Main() {
                             <tr key={post.id} onClick={() => handlePostClick(post)} style={{ cursor: 'pointer' }}>
                                 <td>{index + 1}</td>
                                 <td>{post.title}</td>
-                                <td>{post.username || '익명'}</td> 
+                                <td>{post.authorNickname || username}</td>
                                 <td>{new Date(post.createdAt).toLocaleDateString()}</td> 
                                 <td>{post.recommendations || 0}</td>
                             </tr>

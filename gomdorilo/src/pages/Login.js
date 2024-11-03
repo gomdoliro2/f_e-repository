@@ -75,7 +75,7 @@ const Login = () => {
                 <button className="signin-button" onClick={handleSignIn} disabled={loading}>
                     로그인
                 </button>
-                <button className="signup-button" onClick={() => navigate('/signup')}>
+                <button className="signup-button" onClick={() => navigate('/signin')}>
                     회원가입하기
                 </button>
             </div>
