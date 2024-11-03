@@ -81,9 +81,9 @@
 
 #postwrite {
     display: flex;
-    font-size: 24px;
-    margin-right: -800%;
-    padding: 10%;
+    font-size: 20px;
+    margin-bottom: 3%;
+    margin-right: -240%;
 }
 
 .author-details {
@@ -104,10 +104,9 @@
 .follow-button {
     background-color: #000;
     color: #fff;
-    padding: 10%;
-    width: 160%;
-    margin-right: -800%;
-    margin-top: -30%;
+    padding: 3%;
+    width: 40%;
+    margin-right: -240%;
     border-radius: 8px;
     font-size: 16px;
     cursor: pointer;

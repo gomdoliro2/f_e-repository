@@ -30,7 +30,7 @@ const Post = () => {
             await deleteBoard(id); 
             alert('게시글이 삭제되었습니다.');
             setIsModalOpen(false);
-            navigate('/main');
+            navigate('/main'); 
         } catch (error) {
             console.error("게시글 삭제 오류:", error);
             alert("게시글 삭제에 실패했습니다.");
