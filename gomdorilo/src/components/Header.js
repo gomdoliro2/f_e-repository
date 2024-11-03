@@ -3,11 +3,11 @@ import '../styled_components/Header.css';
 import picture1 from '../img/material-symbols_search.png';
 import picture2 from '../img/frame.png';
 
-const Header = ({ authorNickname, searchTerm, setSearchTerm, handleSearch, toggleMenu }) => {
+const Header = ({ authorNickname = 'Nickname', searchTerm, setSearchTerm, handleSearch, toggleMenu }) => {
     return (
         <div className="header-content">
             <div className="logo">
-                <p>BamGallary</p> 
+                <p>BamGallary</p>
             </div>
             <div className="search-container">
                 <input
@@ -21,11 +21,11 @@ const Header = ({ authorNickname, searchTerm, setSearchTerm, handleSearch, toggl
                     src={picture1}
                     alt="search-symbol"
                     className="search-icon"
-                    onClick={handleSearch} 
+                    onClick={handleSearch}
                 />
             </div>
             <div className="my-post-container" onClick={toggleMenu}>
-                <p>내 게시물 <span> | </span> {authorNickname} </p> 
+                <p>내 게시물 <span> | </span> {authorNickname} </p>
                 <img src={picture2} alt="face-symbol" className="face-icon" />
             </div>
         </div>
