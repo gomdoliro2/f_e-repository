@@ -30,7 +30,7 @@ const Login = () => {
             });
 
             console.log('Response data:', response.data);
-            
+
             const token = response.data.accessToken; 
             if (token) {
                 localStorage.setItem('jwtToken', token); 
@@ -50,7 +50,7 @@ const Login = () => {
     return (
         <div className="signin-container">
             <div className="signin-box">
-                <h2 className="signin-title">로그인</h2>
+                <h2 className="signin-title">Login</h2>
                 {error && <div className="error-message">{error}</div>}
                 <div className="input-field">
                     <input
