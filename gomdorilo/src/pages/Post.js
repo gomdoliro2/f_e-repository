@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../components/Header.js';
 import { useLocation, useNavigate } from 'react-router-dom'; 
-import { deleteBoard } from '../api.js'; 
+import { deleteBoard, commentData } from '../api.js'; 
 import picture2 from '../img/frame.png';
 import picture3 from '../img/heart.png';
 import '../styled_components/Post.css';
@@ -39,13 +39,19 @@ const Post = () => {
 
     const handleCommentChange = (e) => setComment(e.target.value);
 
-    const handleCommentSubmit = (e) => {
-        e.preventDefault();
+    const handleCommentSubmit = async (e) => {
+        e.preventDefault(); 
         if (comment.trim()) {
-            setComments((prevComments) => [...prevComments, comment.trim()]);
-            setComment('');
+            try {
+                const newComment = await commentData(id, { content: comment.trim() }); 
+                setComments((prevComments) => [...prevComments, newComment]); 
+                setComment('');
+            } catch (error) {
+                console.error("댓글 작성 오류:", error);
+                alert("댓글 작성에 실패했습니다."); 
+            }
         } else {
-            alert("댓글을 입력해 주세요.");
+            alert("댓글을 입력해 주세요."); 
         }
     };
 
@@ -55,7 +61,7 @@ const Post = () => {
         <div className="post-container">
             <Header username={username} />
             <div className="post-form">
-                <div style={{ display: 'flex', alignItems: 'center'}}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                     <input 
                         className="title-show" 
                         value={postTitle} 
@@ -108,7 +114,7 @@ const Post = () => {
                     {comments.length > 0 ? (
                         comments.map((comment, index) => (
                             <div key={index} className="comment-item">
-                                {comment}
+                                {comment.content}
                             </div>
                         ))
                     ) : (
