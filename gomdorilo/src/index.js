@@ -16,10 +16,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Router>
         <Routes>
+            
             <Route path="/" element={<Login />} />
             <Route path="/main" element={<Main />} /> 
             <Route path="/new-post" element={<CreatePost />} />
             <Route path="/post" element={<Post />} />
+            <Route path="/post/:id" element={<Post />} />
+            <Route path="/new-post" element={<CreatePost />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/post-edit" element={<PostEdit />} /> 
         </Routes>

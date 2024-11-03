@@ -4,6 +4,7 @@ import axios from 'axios';
 import Header from '../components/Dropdown.js';
 import Bar from '../components/Bar.js';
 import CreatePost from './CreatePost.js';
+import Post from './Post.js'; 
 import '../styled_components/Main.css';
 
 function Main() {
@@ -36,7 +37,7 @@ function Main() {
     const handleTypeClick = (type) => {
         setSelectedType(type);
         if (type === '작성일') {
-            setFilteredPosts([...posts].sort((a, b) => new Date(b.date) - new Date(a.date)));
+            setFilteredPosts([...posts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
         } else if (type === '인기글') {
             setFilteredPosts([...posts].sort((a, b) => b.recommendations - a.recommendations));
         } else {
@@ -53,13 +54,13 @@ function Main() {
         setFilteredPosts(prevPosts => [...prevPosts, newPost]);
     };
 
-    const handlePostSelect = async (postId) => {
-        navigate(`/post/${postId}`);
-    };
-
     const NewPostButton = () => (
         <button className="new-post-button" onClick={() => navigate('/new-post')}>새 글 작성</button>
     );
+
+    const handlePostClick = (post) => {
+        navigate(`/post/${post.id}`, { state: post }); 
+    };
 
     return (
         <div className="main-container">
@@ -79,8 +80,8 @@ function Main() {
             <table className="post-table">
                 <thead>
                     <tr>
-                            <th>no</th>
-                            <th>제목</th>
+                        <th>no</th>
+                        <th>제목</th>
                         <th>작성자</th>
                         <th>작성일</th>
                         <th>추천</th>
@@ -89,7 +90,7 @@ function Main() {
                 <tbody>
                     {filteredPosts.length > 0 ? (
                         filteredPosts.map((post, index) => (
-                            <tr key={post.id} onClick={() => handlePostSelect(post.id)}>
+                            <tr key={post.id} onClick={() => handlePostClick(post)} style={{ cursor: 'pointer' }}>
                                 <td>{index + 1}</td>
                                 <td>{post.title}</td>
                                 <td>{post.username || '익명'}</td> 
@@ -106,6 +107,7 @@ function Main() {
             </table>
             <Routes>
                 <Route path="/new-post" element={<CreatePost onPostSubmit={handlePostSubmit} />} />
+                <Route path="/post/:id" element={<Post />} />
             </Routes>
         </div>
     );
