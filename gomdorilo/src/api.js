@@ -4,7 +4,7 @@ const API_BASE_URL = 'https://port-0-b-e-repository-m1qaons0275b16c0.sel4.cloudt
 
 // 기본 설정
 axios.defaults.baseURL = API_BASE_URL;
-axios.defaults.withCredentials = true; // 인증 정보를 포함한 요청을 서버에 전송
+axios.defaults.withCredentials = true; 
 
 // 게시글 저장
 export const saveBoard = async (boardData) => {
@@ -72,14 +72,50 @@ export const getAllBoards = async () => {
 
 // 댓글 작성
 export const commentData = async (boardId, commentData) => {
+    const token = localStorage.getItem('jwtToken'); 
+
+    if (!token) {
+        alert('댓글 작성에 실패했습니다.');
+        return null; 
+    }
+
     try {
-        const response = await axios.post(`/board/${boardId}/comments`, commentData, {
-            headers: { 'Content-Type': 'application/json' },
+        const response = await axios.post(`${API_BASE_URL}/board/${boardId}/comments`, commentData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
         });
-        console.log('댓글 작성 성공:', response.data);
         return response.data;
     } catch (error) {
-        console.error('댓글 작성 중 오류 발생:', error);
+        console.error("댓글 작성 오류:", error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
+
+// 댓글 수정
+export const updateComment = async (commentId, content) => {
+    try {
+        const requestData = { comment_id: commentId, content };
+        const response = await axios.put(`/comments/update`, requestData, {
+            headers: { 'Content-Type': 'application/json' },
+        });
+        console.log('댓글 수정 성공:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('댓글 수정 중 오류 발생:', error);
+        throw error;
+    }
+};
+
+// 댓글 삭제
+export const deleteComment = async (commentId) => {
+    try {
+        const response = await axios.delete(`/comments/delete/${commentId}`);
+        console.log('댓글 삭제 성공:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('댓글 삭제 중 오류 발생:', error);
         throw error;
     }
 };
