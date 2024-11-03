@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, Routes, Route, useParams } from 'react-router-dom';
+import { useNavigate, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import Header from '../components/Dropdown.js';
 import Bar from '../components/Bar.js';
-import PostTable from './PostTable.js';
 import CreatePost from './CreatePost.js';
-import '../styled_components/Main.css'; 
+import '../styled_components/Main.css';
 
 function Main() {
     const navigate = useNavigate();
-    const { id } = useParams();
-
-    const username = '지정한 사용자 이름'; 
-
     const [searchTerm, setSearchTerm] = useState('');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [selectedType, setSelectedType] = useState('작성일');
@@ -20,20 +15,18 @@ function Main() {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        const fetchPost = async () => {
+        const fetchPosts = async () => {
             try {
-                if (id) {
-                    const response = await axios.get(`/get/${id}`);
-                    setPosts([response.data]); 
-                    setFilteredPosts([response.data]); 
-                }
+                const response = await axios.get(`/board`);
+                setPosts(response.data);
+                setFilteredPosts(response.data);
             } catch (err) {
                 console.error('게시물 가져오기 실패:', err);
             }
         };
 
-        fetchPost();
-    }, [id]);
+        fetchPosts();
+    }, []);
 
     const handleSearch = () => {
         const results = posts.filter(post => post.title.includes(searchTerm));
@@ -61,12 +54,7 @@ function Main() {
     };
 
     const handlePostSelect = async (postId) => {
-        try {
-            const response = await axios.get(`/board/get/${postId}`);
-            navigate(`/post/${postId}`, { state: { post: response.data } });
-        } catch (err) {
-            console.error('게시글 가져오기 실패:', err);
-        }
+        navigate(`/post/${postId}`);
     };
 
     const NewPostButton = () => (
@@ -76,7 +64,6 @@ function Main() {
     return (
         <div className="main-container">
             <Header 
-                username={username} 
                 searchTerm={searchTerm} 
                 setSearchTerm={setSearchTerm} 
                 handleSearch={handleSearch} 
@@ -89,10 +76,36 @@ function Main() {
             />
             <NewPostButton />
             <div className="line" />
-            <PostTable filteredPosts={filteredPosts} onPostSelect={handlePostSelect} />
+            <table className="post-table">
+                <thead>
+                    <tr>
+                            <th>no</th>
+                            <th>제목</th>
+                        <th>작성자</th>
+                        <th>작성일</th>
+                        <th>추천</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {filteredPosts.length > 0 ? (
+                        filteredPosts.map((post, index) => (
+                            <tr key={post.id} onClick={() => handlePostSelect(post.id)}>
+                                <td>{index + 1}</td>
+                                <td>{post.title}</td>
+                                <td>{post.username || '익명'}</td> 
+                                <td>{new Date(post.createdAt).toLocaleDateString()}</td> 
+                                <td>{post.recommendations || 0}</td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="5">게시물이 없습니다.</td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
             <Routes>
                 <Route path="/new-post" element={<CreatePost onPostSubmit={handlePostSubmit} />} />
-                <Route path="/post/:id" element={<Main />} /> 
             </Routes>
         </div>
     );

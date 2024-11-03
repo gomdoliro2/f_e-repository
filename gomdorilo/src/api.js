@@ -86,17 +86,22 @@ export const getAllBoards = async () => {
 // 댓글 작성
 export const commentData = async (boardId, commentData) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/board/${boardId}/comments`, commentData, {
+        const token = localStorage.getItem('jwtToken'); 
+        
+        const response = await axios.post(`/board/${boardId}/comments`, commentData, {
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         });
+        
         return response.data;
     } catch (error) {
         console.error("댓글 작성 오류:", error.response ? error.response.data : error.message);
         throw error;
     }
 };
+
 
 // 댓글 수정
 export const updateComment = async (commentId, content) => {

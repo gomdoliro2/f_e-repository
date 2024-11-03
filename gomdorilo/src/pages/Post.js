@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../components/Header.js';
 import { useLocation, useNavigate } from 'react-router-dom'; 
 import { deleteBoard, commentData } from '../api.js'; 
@@ -54,6 +54,11 @@ const Post = () => {
             alert("댓글을 입력해 주세요."); 
         }
     };
+
+    useEffect(() => {
+        const token = localStorage.getItem('jwtToken');
+        console.log('현재 토큰:', token); 
+    }, []);
 
     const handleCommentCancel = () => setComment('');
 
