@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { deleteBoard, commentData } from '../api.js'; 
 import picture2 from '../img/frame.png';
 import picture3 from '../img/heart.png';
+import picture4 from '../img/arrow.png';
 import '../styled_components/Post.css';
 
 const Post = () => {
@@ -72,6 +73,8 @@ const Post = () => {
                         value={postTitle} 
                         readOnly 
                     />
+                    <button className="sum-button">
+                        <img src={picture4} alt="arrow" className="arrow" />요약하기</button>
                     <button className="edit-button" onClick={handleEdit}>수정</button>
                     <button className="delete-button" onClick={handleDelete}>삭제</button>
                 </div>
