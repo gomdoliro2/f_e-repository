@@ -36,7 +36,11 @@ export const saveBoard = async (boardData) => {
 // 게시글 수정
 export const updateBoard = async (requestData) => {
     try {
-        const response = await axios.put(`/board/update`, requestData, {
+        const response = await axios.put(`/board/update`, {
+            id: requestData.id,
+            title: requestData.title,
+            content: requestData.content,
+        }, {
             headers: { 'Content-Type': 'application/json' },
         });
         console.log('게시글 수정 성공:', response.data);
@@ -46,6 +50,7 @@ export const updateBoard = async (requestData) => {
         throw error;
     }
 };
+
 
 // 게시글 삭제
 export const deleteBoard = async (boardId) => {

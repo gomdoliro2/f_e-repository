@@ -4,11 +4,11 @@ import Header from '../components/Header.js';
 import '../styled_components/CreatePost.css';
 import picture3 from '../img/eye.png';
 import picture4 from '../img/Vector.png';
-import { updateBoard } from '../api.js'; 
+import { updateBoard } from '../api.js';
 
 const PostEdit = () => {
     const location = useLocation();
-    const { title, content } = location.state || { title: '', content: '' };
+    const { id, title, content } = location.state || { id: '', title: '', content: '' };
     const [newBoard, setNewBoard] = useState({ title, content });
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isPublic, setIsPublic] = useState(true);
@@ -22,11 +22,11 @@ const PostEdit = () => {
         }
 
         try {
-            console.log('Updating board:', { ...newBoard, username, isPublic }); 
-            const updatedBoard = await updateBoard({ ...newBoard, username, isPublic });
+            console.log('Updating board:', { id, ...newBoard, username, isPublic });
+            const updatedBoard = await updateBoard({ id, ...newBoard, username, isPublic });
             console.log('게시글이 수정되었습니다:', updatedBoard);
 
-            navigate('/post', { state: { title: newBoard.title, content: newBoard.content } });
+            navigate(`/post/${id}`, { state: { id, title: newBoard.title, content: newBoard.content } });
         } catch (error) {
             console.error('게시글 수정 실패:', error);
             alert('게시글 수정 중 오류가 발생했습니다. 다시 시도해 주세요.');
@@ -46,7 +46,7 @@ const PostEdit = () => {
     };
 
     const handleFinalizePost = async () => {
-        await handleSave(); 
+        await handleSave();
         handleCloseModal();
     };
 
