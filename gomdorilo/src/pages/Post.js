@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header.js';
 import { useLocation, useNavigate } from 'react-router-dom'; 
-import { deleteBoard, commentData, getBoardById } from '../api.js'; 
+import { deleteBoard, commentData, getBoardById, updateComment, deleteComment } from '../api.js'; 
 import picture2 from '../img/frame.png';
 import picture3 from '../img/heart.png';
 import picture4 from '../img/arrow.png';
@@ -18,6 +18,8 @@ const Post = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState([]);
+    const [editCommentId, setEditCommentId] = useState(null);
+    const [editCommentText, setEditCommentText] = useState('');
 
     useEffect(() => {
         const loadComments = async () => {
@@ -30,9 +32,6 @@ const Post = () => {
             }
         };
         loadComments();
-
-        const token = localStorage.getItem('jwtToken');
-        console.log('현재 토큰:', token); 
     }, [id]);
 
     const handleEdit = () => {
@@ -73,6 +72,33 @@ const Post = () => {
     };
 
     const handleCommentCancel = () => setComment('');
+
+    const handleEditCommentChange = (e) => setEditCommentText(e.target.value);
+
+    const handleEditCommentSubmit = async (commentId) => {
+        try {
+            await updateComment(commentId, editCommentText);
+            setComments((prevComments) => 
+                prevComments.map((c) => (c.id === commentId ? { ...c, content: editCommentText } : c))
+            );
+            setEditCommentId(null);
+            setEditCommentText('');
+        } catch (error) {
+            console.error("댓글 수정 오류:", error);
+            alert("댓글 수정에 실패했습니다."); 
+        }
+    };
+
+    const handleCommentDelete = async (commentId) => {
+        try {
+            await deleteComment(commentId);
+            setComments((prevComments) => prevComments.filter((c) => c.id !== commentId));
+            alert('댓글이 삭제되었습니다.');
+        } catch (error) {
+            console.error("댓글 삭제 오류:", error);
+            alert("댓글 삭제에 실패했습니다.");
+        }
+    };
 
     return (
         <div className="post-container">
@@ -132,9 +158,26 @@ const Post = () => {
                 </form>
                 <div className="comments-list">
                     {comments.length > 0 ? (
-                        comments.map((comment, index) => (
-                            <div key={index} className="comment-item">
-                                {comment.content}
+                        comments.map((comment) => (
+                            <div key={comment.id} className="comment-item">
+                                {editCommentId === comment.id ? (
+                                    <div>
+                                        <textarea 
+                                            value={editCommentText} 
+                                            onChange={handleEditCommentChange}
+                                        />
+                                        <button onClick={() => handleEditCommentSubmit(comment.id)}>수정 완료</button>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        {comment.content}
+                                        <button onClick={() => {
+                                            setEditCommentId(comment.id);
+                                            setEditCommentText(comment.content);
+                                        }}>수정</button>
+                                        <button onClick={() => handleCommentDelete(comment.id)}>삭제</button>
+                                    </div>
+                                )}
                             </div>
                         ))
                     ) : (
