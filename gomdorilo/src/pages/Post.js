@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header.js';
 import { useLocation, useNavigate } from 'react-router-dom'; 
-import { deleteBoard, commentData, getBoardById, updateComment, deleteComment } from '../api.js'; 
+import { deleteBoard, getBoardById } from '../api.js'; 
 import picture2 from '../img/frame.png';
 import picture3 from '../img/heart.png';
 import picture4 from '../img/arrow.png';
 import '../styled_components/Post.css';
+import Comment from '../components/Comment.js'; 
 
 const Post = () => {
     const location = useLocation();
@@ -16,10 +17,7 @@ const Post = () => {
     const [postTitle] = useState(title);
     const [postContent] = useState(content);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [comment, setComment] = useState('');
     const [comments, setComments] = useState([]);
-    const [editCommentId, setEditCommentId] = useState(null);
-    const [editCommentText, setEditCommentText] = useState('');
 
     useEffect(() => {
         const loadComments = async () => {
@@ -53,53 +51,6 @@ const Post = () => {
         }
     };
 
-    const handleCommentChange = (e) => setComment(e.target.value);
-
-    const handleCommentSubmit = async (e) => {
-        e.preventDefault(); 
-        if (comment.trim()) {
-            try {
-                const newComment = await commentData(id, { content: comment.trim() }); 
-                setComments((prevComments) => [...prevComments, newComment]); 
-                setComment('');
-            } catch (error) {
-                console.error("댓글 작성 오류:", error);
-                alert("댓글 작성에 실패했습니다."); 
-            }
-        } else {
-            alert("댓글을 입력해 주세요."); 
-        }
-    };
-
-    const handleCommentCancel = () => setComment('');
-
-    const handleEditCommentChange = (e) => setEditCommentText(e.target.value);
-
-    const handleEditCommentSubmit = async (commentId) => {
-        try {
-            await updateComment(commentId, editCommentText);
-            setComments((prevComments) => 
-                prevComments.map((c) => (c.id === commentId ? { ...c, content: editCommentText } : c))
-            );
-            setEditCommentId(null);
-            setEditCommentText('');
-        } catch (error) {
-            console.error("댓글 수정 오류:", error);
-            alert("댓글 수정에 실패했습니다."); 
-        }
-    };
-
-    const handleCommentDelete = async (commentId) => {
-        try {
-            await deleteComment(commentId);
-            setComments((prevComments) => prevComments.filter((c) => c.id !== commentId));
-            alert('댓글이 삭제되었습니다.');
-        } catch (error) {
-            console.error("댓글 삭제 오류:", error);
-            alert("댓글 삭제에 실패했습니다.");
-        }
-    };
-
     return (
         <div className="post-container">
             <Header username={username} />
@@ -111,8 +62,7 @@ const Post = () => {
                         readOnly 
                     />
                     <button className="sum-button">
-                        <img src={picture4} alt="arrow" className="arrow" />요약하기
-                    </button>
+                    <img src={picture4} alt="arrow" className="arrow" />요약하기</button>
                     <button className="edit-button" onClick={handleEdit}>수정</button>
                     <button className="delete-button" onClick={handleDelete}>삭제</button>
                 </div>
@@ -135,7 +85,7 @@ const Post = () => {
                         </div>
                         <div id="comm">
                             댓글
-                            <div id="small">{comments.length}</div> 
+                            <div id="small">{comments.length}</div>
                         </div>
                         <div className="author-details">
                             <p id="postwrite">{username}</p>
@@ -145,46 +95,7 @@ const Post = () => {
                     </div>
                 </div>
             </div>
-            <div className="comment-section">
-                <form id="formedit" onSubmit={handleCommentSubmit}>
-                    <textarea 
-                        id="comment" 
-                        placeholder='댓글 작성' 
-                        value={comment} 
-                        onChange={handleCommentChange}
-                    ></textarea>
-                    <button type="submit" className="add-comment-button">작성</button>
-                    <button type="button" className="close-comment-button" onClick={handleCommentCancel}>취소</button>
-                </form>
-                <div className="comments-list">
-                    {comments.length > 0 ? (
-                        comments.map((comment) => (
-                            <div key={comment.id} className="comment-item">
-                                {editCommentId === comment.id ? (
-                                    <div>
-                                        <textarea 
-                                            value={editCommentText} 
-                                            onChange={handleEditCommentChange}
-                                        />
-                                        <button onClick={() => handleEditCommentSubmit(comment.id)}>수정 완료</button>
-                                    </div>
-                                ) : (
-                                    <div>
-                                        {comment.content}
-                                        <button onClick={() => {
-                                            setEditCommentId(comment.id);
-                                            setEditCommentText(comment.content);
-                                        }}>수정</button>
-                                        <button onClick={() => handleCommentDelete(comment.id)}>삭제</button>
-                                    </div>
-                                )}
-                            </div>
-                        ))
-                    ) : (
-                        <div className="no-comments">댓글이 없습니다</div> 
-                    )}
-                </div>
-            </div>
+            <Comment postId={id} />
             {isModalOpen && (
                 <div className="modal">
                     <div className="modal-content">
