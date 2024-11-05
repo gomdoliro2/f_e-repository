@@ -20,8 +20,9 @@ const Post = () => {
     const [comments, setComments] = useState([]);
 
     const handleEdit = () => {
+        console.log("수정할 포스트 ID:", id);
         navigate('/post-edit', { state: { id, title: postTitle, content: postContent } });
-    };
+    };    
 
     const handleDelete = () => setIsModalOpen(true);
     const cancelDelete = () => setIsModalOpen(false);
