@@ -19,6 +19,34 @@ axios.interceptors.request.use(
     }
 );
 
+// 댓글 작성 (부모 댓글에 대한 자식 댓글 작성)
+export const createChildComment = async (parentId, content) => {
+    try {
+        const response = await axios.post(`/comments/${parentId}`, { content }, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        console.log('자식 댓글 작성 성공:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('자식 댓글 작성 중 오류 발생:', error);
+        throw error;
+    }
+};
+
+// 대댓글 조회
+export const getRepliesByCommentId = async (commentId) => {
+    try {
+        const response = await axios.get(`/comments/${commentId}`);
+        console.log('대댓글 조회 성공:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('대댓글 조회 중 오류 발생:', error);
+        throw error;
+    }
+};
+
 // 게시글 저장
 export const saveBoard = async (boardData) => {
     try {
@@ -50,7 +78,6 @@ export const updateBoard = async (requestData) => {
         throw error;
     }
 };
-
 
 // 게시글 삭제
 export const deleteBoard = async (boardId) => {
@@ -106,7 +133,6 @@ export const commentData = async (boardId, commentData) => {
         throw error;
     }
 };
-
 
 // 댓글 수정
 export const updateComment = async (commentId, content) => {

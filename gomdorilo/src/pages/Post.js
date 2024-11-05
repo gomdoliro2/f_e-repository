@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header.js';
 import { useLocation, useNavigate } from 'react-router-dom'; 
-import { deleteBoard } from '../api.js'; 
+import { deleteBoard, commentData } from '../api.js'; 
 import picture2 from '../img/frame.png';
 import picture3 from '../img/heart.png';
 import picture4 from '../img/arrow.png';
@@ -16,6 +16,8 @@ const Post = () => {
     const [postTitle] = useState(title);
     const [postContent] = useState(content);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [comment, setComment] = useState('');
+    const [comments, setComments] = useState([]);
 
     const handleEdit = () => {
         console.log("수정할 포스트 ID:", id);
@@ -37,10 +39,30 @@ const Post = () => {
         }
     };
 
+    const handleCommentChange = (e) => setComment(e.target.value);
+
+    const handleCommentSubmit = async (e) => {
+        e.preventDefault(); 
+        if (comment.trim()) {
+            try {
+                const newComment = await commentData(id, { content: comment.trim() }); 
+                setComments((prevComments) => [...prevComments, newComment]); 
+                setComment('');
+            } catch (error) {
+                console.error("댓글 작성 오류:", error);
+                alert("댓글 작성에 실패했습니다."); 
+            }
+        } else {
+            alert("댓글을 입력해 주세요."); 
+        }
+    };
+
     useEffect(() => {
         const token = localStorage.getItem('jwtToken');
         console.log('현재 토큰:', token); 
     }, []);
+
+    const handleCommentCancel = () => setComment('');
 
     return (
         <div className="post-container">
@@ -76,7 +98,7 @@ const Post = () => {
                         </div>
                         <div id="comm">
                             댓글
-                            <div id="small">0</div> 
+                            <div id="small">{comments.length}</div> 
                         </div>
                         <div className="author-details">
                             <p id="postwrite">{username}</p>
@@ -84,6 +106,29 @@ const Post = () => {
                         </div>
                         <img src={picture2} alt="face-symbol" className="author-image" />
                     </div>
+                </div>
+            </div>
+            <div className="comment-section">
+                <form id="formedit" onSubmit={handleCommentSubmit}>
+                    <textarea 
+                        id="comment" 
+                        placeholder='댓글 작성' 
+                        value={comment} 
+                        onChange={handleCommentChange}
+                    ></textarea>
+                    <button type="submit" className="add-comment-button">작성</button>
+                    <button type="button" className="close-comment-button" onClick={handleCommentCancel}>취소</button>
+                </form>
+                <div className="comments-list">
+                    {comments.length > 0 ? (
+                        comments.map((comment, index) => (
+                            <div key={index} className="comment-item">
+                                {comment.content}
+                            </div>
+                        ))
+                    ) : (
+                        <div className="no-comments">댓글이 없습니다</div> 
+                    )}
                 </div>
             </div>
             {isModalOpen && (
