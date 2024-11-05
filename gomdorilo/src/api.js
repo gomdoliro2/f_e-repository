@@ -33,6 +33,18 @@ export const saveBoard = async (boardData) => {
     }
 };
 
+
+// 게시글 요약 API 호출 함수
+export const summarizePost = async (boardId) => {
+    try {
+        const response = await axios.get(`/board/summarize/${boardId}`);
+        return response.data; 
+    } catch (error) {
+        console.error("게시글 요약 오류:", error);
+        throw error;
+    }
+}
+
 // 게시글 수정
 export const updateBoard = async (requestData) => {
     try {

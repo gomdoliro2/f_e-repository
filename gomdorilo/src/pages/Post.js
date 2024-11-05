@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header.js';
 import { useLocation, useNavigate } from 'react-router-dom'; 
-import { deleteBoard, getBoardById } from '../api.js'; 
+import { deleteBoard, getBoardById, summarizePost } from '../api.js'; 
 import picture2 from '../img/frame.png';
 import picture3 from '../img/heart.png';
 import picture4 from '../img/arrow.png';
@@ -15,9 +15,12 @@ const Post = () => {
     const username = localStorage.getItem('username') || 'Jin_venus08';
 
     const [postTitle] = useState(title);
-    const [postContent] = useState(content);
+    const [postContent, setPostContent] = useState(content);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isSummaryModalOpen, setIsSummaryModalOpen] = useState(false);
+    const [isReturnToOriginalModalOpen, setIsReturnToOriginalModalOpen] = useState(false);
     const [comments, setComments] = useState([]);
+    const [summary, setSummary] = useState(""); //eslint-disable-line no-unused-vars
 
     useEffect(() => {
         const loadComments = async () => {
@@ -51,6 +54,33 @@ const Post = () => {
         }
     };
 
+    const handleSummarizeRequest = () => {
+        if (postContent !== content) { 
+            setIsReturnToOriginalModalOpen(true);
+        } else {
+            setIsSummaryModalOpen(true); 
+        }
+    };
+
+    const handleSummarizeConfirm = async () => {
+        setIsSummaryModalOpen(false);
+        try {
+            const response = await summarizePost(id);
+            setSummary(response.content);
+            setPostContent(response.content);
+            alert("게시글 요약이 완료되었습니다.");
+        } catch (error) {
+            console.error("게시글 요약 오류:", error);
+            alert("게시글 요약에 실패했습니다.");
+        }
+    };
+
+    const handleReturnToOriginalConfirm = () => {
+        setPostContent(content); 
+        setSummary(""); 
+        setIsReturnToOriginalModalOpen(false);
+    };
+
     return (
         <div className="post-container">
             <Header username={username} />
@@ -61,8 +91,9 @@ const Post = () => {
                         value={postTitle} 
                         readOnly 
                     />
-                    <button className="sum-button">
-                    <img src={picture4} alt="arrow" className="arrow" />요약하기</button>
+                    <button className="sum-button" onClick={handleSummarizeRequest}>
+                        <img src={picture4} alt="arrow" className="arrow" />요약하기
+                    </button>
                     <button className="edit-button" onClick={handleEdit}>수정</button>
                     <button className="delete-button" onClick={handleDelete}>삭제</button>
                 </div>
@@ -102,6 +133,24 @@ const Post = () => {
                         <p className="modal-text">이 글을 삭제하시겠습니까?</p>
                         <button className="cancel-button" onClick={cancelDelete}>취소</button>
                         <button className="modal-delete-button" onClick={handlePostDelete}>삭제</button>
+                    </div>
+                </div>
+            )}
+            {isSummaryModalOpen && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <p className="modal-text">글을 요약하시겠습니까?</p>
+                        <button className="cancel-button" onClick={() => setIsSummaryModalOpen(false)}>취소</button>
+                        <button className="modal-confirm-button" onClick={handleSummarizeConfirm}>요약</button>
+                    </div>
+                </div>
+            )}
+            {isReturnToOriginalModalOpen && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <p className="modal-text">원문을 보시겠습니까?</p>
+                        <button className="cancel-button" onClick={() => setIsReturnToOriginalModalOpen(false)}>취소</button>
+                        <button className="modal-confirm-button" onClick={handleReturnToOriginalConfirm}>확인</button>
                     </div>
                 </div>
             )}
