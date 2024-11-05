@@ -19,34 +19,6 @@ axios.interceptors.request.use(
     }
 );
 
-// 댓글 작성 (부모 댓글에 대한 자식 댓글 작성)
-export const createChildComment = async (parentId, content) => {
-    try {
-        const response = await axios.post(`/comments/${parentId}`, { content }, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-        console.log('자식 댓글 작성 성공:', response.data);
-        return response.data;
-    } catch (error) {
-        console.error('자식 댓글 작성 중 오류 발생:', error);
-        throw error;
-    }
-};
-
-// 대댓글 조회
-export const getRepliesByCommentId = async (commentId) => {
-    try {
-        const response = await axios.get(`/comments/${commentId}`);
-        console.log('대댓글 조회 성공:', response.data);
-        return response.data;
-    } catch (error) {
-        console.error('대댓글 조회 중 오류 발생:', error);
-        throw error;
-    }
-};
-
 // 게시글 저장
 export const saveBoard = async (boardData) => {
     try {
@@ -115,25 +87,6 @@ export const getAllBoards = async () => {
     }
 };
 
-// 댓글 작성
-export const commentData = async (boardId, commentData) => {
-    try {
-        const token = localStorage.getItem('jwtToken'); 
-        
-        const response = await axios.post(`/board/${boardId}/comments`, commentData, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-        });
-        
-        return response.data;
-    } catch (error) {
-        console.error("댓글 작성 오류:", error.response ? error.response.data : error.message);
-        throw error;
-    }
-};
-
 // 댓글 수정
 export const updateComment = async (commentId, content) => {
     try {
@@ -157,6 +110,51 @@ export const deleteComment = async (commentId) => {
         return response.data;
     } catch (error) {
         console.error('댓글 삭제 중 오류 발생:', error);
+        throw error;
+    }
+};
+
+
+// 댓글 작성
+export const commentData = async (boardId, commentData) => {
+    try {
+        const response = await axios.post(`/board/${boardId}/comments`, { content: commentData.content }, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        console.log('댓글 작성 성공:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error("댓글 작성 오류:", error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
+
+// 부모 댓글에 대한 자식 댓글 생성
+export const createChildComment = async (commentId, content) => {
+    try {
+        const response = await axios.post(`/comments/${commentId}`, { content }, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        console.log('자식 댓글 작성 성공:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('자식 댓글 작성 중 오류 발생:', error);
+        throw error;
+    }
+};
+
+// 특정 댓글의 대댓글 조회
+export const getRepliesByCommentId = async (parentId) => {
+    try {
+        const response = await axios.get(`/comments/${parentId}`);
+        console.log('대댓글 조회 성공:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('대댓글 조회 중 오류 발생:', error);
         throw error;
     }
 };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header.js';
 import { useLocation, useNavigate } from 'react-router-dom'; 
-import { deleteBoard, commentData } from '../api.js'; 
+import { deleteBoard, commentData, getBoardById } from '../api.js'; 
 import picture2 from '../img/frame.png';
 import picture3 from '../img/heart.png';
 import picture4 from '../img/arrow.png';
@@ -19,17 +19,32 @@ const Post = () => {
     const [comment, setComment] = useState('');
     const [comments, setComments] = useState([]);
 
+    useEffect(() => {
+        const loadComments = async () => {
+            try {
+                const boardData = await getBoardById(id);
+                setComments(boardData.comments || []);
+            } catch (error) {
+                console.error("댓글 불러오기 오류:", error);
+                alert("댓글을 불러오는데 실패했습니다.");
+            }
+        };
+        loadComments();
+
+        const token = localStorage.getItem('jwtToken');
+        console.log('현재 토큰:', token); 
+    }, [id]);
+
     const handleEdit = () => {
-        console.log("수정할 포스트 ID:", id);
         navigate('/post-edit', { state: { id, title: postTitle, content: postContent } });
-    };    
+    };
 
     const handleDelete = () => setIsModalOpen(true);
     const cancelDelete = () => setIsModalOpen(false);
 
     const handlePostDelete = async () => {
         try {
-            await deleteBoard(id); 
+            await deleteBoard(id);
             alert('게시글이 삭제되었습니다.');
             setIsModalOpen(false);
             navigate('/main'); 
@@ -57,11 +72,6 @@ const Post = () => {
         }
     };
 
-    useEffect(() => {
-        const token = localStorage.getItem('jwtToken');
-        console.log('현재 토큰:', token); 
-    }, []);
-
     const handleCommentCancel = () => setComment('');
 
     return (
@@ -75,7 +85,8 @@ const Post = () => {
                         readOnly 
                     />
                     <button className="sum-button">
-                        <img src={picture4} alt="arrow" className="arrow" />요약하기</button>
+                        <img src={picture4} alt="arrow" className="arrow" />요약하기
+                    </button>
                     <button className="edit-button" onClick={handleEdit}>수정</button>
                     <button className="delete-button" onClick={handleDelete}>삭제</button>
                 </div>
