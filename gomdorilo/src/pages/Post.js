@@ -106,9 +106,7 @@ const Post = () => {
                 <div className="divider">
                     <div className="author-info">
                         <div id="comm">
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <img src={picture3} alt="heart" id="heart" />
-                            </div>
+                            <img src={picture3} alt="heart" id="heart" />
                         </div>
                         <div id="comm">
                             추천

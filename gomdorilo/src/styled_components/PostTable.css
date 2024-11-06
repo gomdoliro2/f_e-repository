@@ -33,6 +33,7 @@
 
 .table-body tr {
     position: relative;
+    text-align: left;
 }
 
 .table-body tr::after {
