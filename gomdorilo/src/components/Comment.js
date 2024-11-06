@@ -3,38 +3,61 @@ import { commentData, updateComment, deleteComment, getBoardById } from '../api.
 import '../styled_components/Post.css';
 import '../styled_components/Comment.css';
 import picture2 from '../img/frame.png';
+import picture3 from '../img/dot.png';
 
 const Comment = ({ postId }) => {
     const [comments, setComments] = useState([]);
     const [comment, setComment] = useState('');
     const [editCommentId, setEditCommentId] = useState(null);
     const [editCommentText, setEditCommentText] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [nickname] = useState('익명');
 
     useEffect(() => {
         const loadComments = async () => {
+            setLoading(true);
             try {
                 const boardData = await getBoardById(postId);
                 setComments(boardData.comments || []);
             } catch (error) {
                 console.error("댓글 불러오기 오류:", error);
                 alert("댓글을 불러오는데 실패했습니다.");
+            } finally {
+                setLoading(false);
             }
         };
         loadComments();
     }, [postId]);
+
+    const formatDate = (date) => {
+        const today = new Date();
+        const commentDate = new Date(date);
+        if (today.toDateString() === commentDate.toDateString()) {
+            return "오늘";
+        }
+        return commentDate.toLocaleDateString('ko-KR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        }).replace(/\. /g, '.').slice(0, -1);
+    };
 
     const handleCommentChange = (e) => setComment(e.target.value);
 
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
         if (comment.trim()) {
+            setLoading(true);
             try {
                 const newComment = await commentData(postId, { content: comment.trim() });
+                newComment.timestamp = new Date().toISOString();
                 setComments((prevComments) => [...prevComments, newComment]);
                 setComment('');
             } catch (error) {
                 console.error("댓글 작성 오류:", error);
                 alert("댓글 작성에 실패했습니다.");
+            } finally {
+                setLoading(false);
             }
         } else {
             alert("댓글을 입력해 주세요.");
@@ -76,15 +99,21 @@ const Comment = ({ postId }) => {
                     value={comment} 
                     className="postwrite"
                     onChange={handleCommentChange}
+                    disabled={loading}
                 />
                 <div className="black_line"></div>
                 <button type="button" className="cancel-btn" onClick={() => setComment('')}>취소</button>
-                <button type="submit" className="add-comment-button">작성</button>
+                <button type="submit" className="add-comment-button" disabled={loading}>작성</button>
             </form>
             <div className="comments-list">
                 {comments.length > 0 ? (
                     comments.map((comment) => (
                         <div key={comment.id} className="comment-item">
+                            <img src={picture2} alt="프로필 이미지" className="profile-pic" />
+                            <div className="comment-header">
+                                <span className="nickname">{nickname}</span>
+                                <span className="timestamp">{formatDate(comment.timestamp)}</span>
+                            </div>
                             {editCommentId === comment.id ? (
                                 <div>
                                     <textarea 
@@ -95,13 +124,21 @@ const Comment = ({ postId }) => {
                                     <button onClick={() => setEditCommentId(null)}>취소</button>
                                 </div>
                             ) : (
-                                <div>
+                                <div className='group'>
                                     <p>{comment.content}</p>
-                                    <button onClick={() => {
-                                        setEditCommentId(comment.id);
-                                        setEditCommentText(comment.content);
-                                    }}>수정</button>
-                                    <button onClick={() => handleCommentDelete(comment.id)}>삭제</button>
+                                    <div className="comment-actions">
+                                        <img 
+                                            src={picture3} 
+                                            alt="옵션" 
+                                            className="edit-icon" 
+                                            onClick={() => {
+                                                setEditCommentId(comment.id);
+                                                setEditCommentText(comment.content);
+                                            }}
+                                        />
+                                        <button onClick={() => handleCommentDelete(comment.id)} className="comment-delete-button">삭제</button>
+                                    </div>
+                                    <button className="reply-button">+ 답글달기</button>
                                 </div>
                             )}
                         </div>
