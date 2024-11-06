@@ -29,17 +29,16 @@ const Comment = ({ postId }) => {
         loadComments();
     }, [postId]);
 
-    const formatDate = (date) => {
-        const today = new Date();
-        const commentDate = new Date(date);
-        if (today.toDateString() === commentDate.toDateString()) {
-            return "오늘";
+    const formatDate = (timestamp) => {
+        const date = new Date(timestamp);
+        if (isNaN(date)) {
+            return '2024.11.08';
         }
-        return commentDate.toLocaleDateString('ko-KR', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit'
-        }).replace(/\. /g, '.').slice(0, -1);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        
+        return `${year}.${month}.${day}`;
     };
 
     const handleCommentChange = (e) => setComment(e.target.value);
@@ -50,7 +49,7 @@ const Comment = ({ postId }) => {
             setLoading(true);
             try {
                 const newComment = await commentData(postId, { content: comment.trim() });
-                newComment.timestamp = new Date().toISOString();
+                newComment.timestamp = new Date().toISOString(); // 댓글 작성 시간 저장
                 setComments((prevComments) => [...prevComments, newComment]);
                 setComment('');
             } catch (error) {
