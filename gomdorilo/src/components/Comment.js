@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { commentData, updateComment, deleteComment, getBoardById } from '../api.js';
+import { commentData, updateComment, deleteComment, getBoardById, createChildComment, getRepliesByCommentId } from '../api.js'; 
 import '../styled_components/Post.css';
 import '../styled_components/Comment.css';
 import picture2 from '../img/frame.png';
@@ -102,27 +102,54 @@ const Comment = ({ postId }) => {
     const handleReplySubmit = async (commentId, e) => {
         e.preventDefault();
         if (replyContent.trim()) {
-            const newReply = {
-                content: replyContent.trim(),
-                timestamp: new Date().toISOString(),
-            };
-            const updatedComments = comments.map((comment) => {
-                if (comment.id === commentId) {
-                    return { ...comment, replies: [...(comment.replies || []), newReply] };
-                }
-                return comment;
-            });
-            setComments(updatedComments);
-            setReplyContent('');
-            setReplyVisibleCommentId(null);
-            setShowReplies((prev) => ({ ...prev, [commentId]: true })); 
+            try {
+                const newReply = await createChildComment(commentId, replyContent.trim());
+                setComments((prevComments) => {
+                    return prevComments.map((comment) => {
+                        if (comment.id === commentId) {
+                            return { ...comment, replies: [...(comment.replies || []), newReply] };
+                        }
+                        return comment;
+                    });
+                });
+                setReplyContent('');
+                setReplyVisibleCommentId(null);
+                setShowReplies((prev) => ({ ...prev, [commentId]: true }));
+            } catch (error) {
+                console.error("답글 작성 오류:", error);
+                alert("답글 작성에 실패했습니다.");
+            }
         } else {
             alert("답글을 입력해 주세요.");
         }
     };
 
-    const toggleRepliesVisibility = (commentId) => {
-        setShowReplies((prev) => ({ ...prev, [commentId]: !prev[commentId] }));
+    const toggleRepliesVisibility = async (commentId) => {
+        setShowReplies((prev) => {
+            const newState = { ...prev, [commentId]: !prev[commentId] };
+            if (!newState[commentId]) {
+                return newState;
+            }
+
+            const loadReplies = async () => {
+                try {
+                    const replies = await getRepliesByCommentId(commentId);
+                    setComments((prevComments) =>
+                        prevComments.map((comment) => {
+                            if (comment.id === commentId) {
+                                return { ...comment, replies };
+                            }
+                            return comment;
+                        })
+                    );
+                } catch (error) {
+                    console.error("대댓글 조회 오류:", error);
+                }
+            };
+
+            loadReplies();
+            return newState;
+        });
     };
 
     return (
