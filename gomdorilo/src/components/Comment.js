@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { commentData, updateComment, deleteComment, getBoardById } from '../api.js';
-import '../styled_components/Post.css'
-import '../styled_components/Comment.css'
+import '../styled_components/Post.css';
+import '../styled_components/Comment.css';
+import picture2 from '../img/frame.png';
 
 const Comment = ({ postId }) => {
     const [comments, setComments] = useState([]);
@@ -71,13 +72,13 @@ const Comment = ({ postId }) => {
         <div className="comment-section">
             <form onSubmit={handleCommentSubmit}>
                 <textarea 
-                    placeholder='댓글 작성' 
+                    placeholder="댓글 작성" 
                     value={comment} 
-                    className='postwrite'
+                    className="postwrite"
                     onChange={handleCommentChange}
                 />
-                <div className='black_line'></div>
-                <button type="submit" className="cancel-btn">취소</button>
+                <div className="black_line"></div>
+                <button type="button" className="cancel-btn" onClick={() => setComment('')}>취소</button>
                 <button type="submit" className="add-comment-button">작성</button>
             </form>
             <div className="comments-list">
@@ -91,10 +92,11 @@ const Comment = ({ postId }) => {
                                         onChange={handleEditCommentChange}
                                     />
                                     <button onClick={() => handleEditCommentSubmit(comment.id)}>수정 완료</button>
+                                    <button onClick={() => setEditCommentId(null)}>취소</button>
                                 </div>
                             ) : (
                                 <div>
-                                    {comment.content}
+                                    <p>{comment.content}</p>
                                     <button onClick={() => {
                                         setEditCommentId(comment.id);
                                         setEditCommentText(comment.content);
