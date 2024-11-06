@@ -12,6 +12,8 @@ const Comment = ({ postId }) => {
     const [editCommentText, setEditCommentText] = useState('');
     const [loading, setLoading] = useState(false);
     const [nickname] = useState('익명');
+    const [replyVisibleCommentId, setReplyVisibleCommentId] = useState(null); 
+    const [replyContent, setReplyContent] = useState('');
 
     useEffect(() => {
         const loadComments = async () => {
@@ -49,7 +51,7 @@ const Comment = ({ postId }) => {
             setLoading(true);
             try {
                 const newComment = await commentData(postId, { content: comment.trim() });
-                newComment.timestamp = new Date().toISOString(); // 댓글 작성 시간 저장
+                newComment.timestamp = new Date().toISOString();
                 setComments((prevComments) => [...prevComments, newComment]);
                 setComment('');
             } catch (error) {
@@ -90,6 +92,32 @@ const Comment = ({ postId }) => {
         }
     };
 
+    const toggleReplyInput = (commentId) => {
+        setReplyVisibleCommentId((prevId) => (prevId === commentId ? null : commentId));
+    };
+
+    const handleReplyChange = (e) => setReplyContent(e.target.value);
+
+    const handleReplySubmit = async (commentId, e) => {
+        e.preventDefault();
+        if (replyContent.trim()) {
+            const newReply = {
+                content: replyContent.trim(),
+                timestamp: new Date().toISOString(),
+            };
+            const updatedComments = comments.map((comment) => {
+                if (comment.id === commentId) {
+                    return { ...comment, replies: [...(comment.replies || []), newReply] };
+                }
+                return comment;
+            });
+            setComments(updatedComments);
+            setReplyContent('');
+        } else {
+            alert("답글을 입력해 주세요.");
+        }
+    };
+
     return (
         <div className="comment-section">
             <form onSubmit={handleCommentSubmit}>
@@ -123,7 +151,7 @@ const Comment = ({ postId }) => {
                                     <button onClick={() => setEditCommentId(null)}>취소</button>
                                 </div>
                             ) : (
-                                <div className='group'>
+                                <div className="group">
                                     <p>{comment.content}</p>
                                     <div className="comment-actions">
                                         <img 
@@ -137,7 +165,39 @@ const Comment = ({ postId }) => {
                                         />
                                         <button onClick={() => handleCommentDelete(comment.id)} className="comment-delete-button">삭제</button>
                                     </div>
-                                    <button className="reply-button">+ 답글달기</button>
+                                    <button 
+                                        className="reply-button" 
+                                        onClick={() => toggleReplyInput(comment.id)}
+                                    >
+                                        + 답글 달기
+                                    </button>
+                                </div>
+                            )}
+                            {replyVisibleCommentId === comment.id && (
+                                <div className="reply-comment-container">
+                                    <form onSubmit={(e) => handleReplySubmit(comment.id, e)} className="reply-form">
+                                        <textarea 
+                                            placeholder="답글 작성" 
+                                            value={replyContent} 
+                                            onChange={handleReplyChange}
+                                            className="nested-reply-input"
+                                        />
+                                        <div className="reply-buttons">
+                                            <button type="submit" className="nested-add-comment-button">작성</button>
+                                            <button type="button" className="nested-cancel-btn" onClick={() => setReplyContent('')}>취소</button>
+                                        </div>
+                                    </form>
+                                    {comment.replies && comment.replies.length > 0 && (
+                                        <div className="replies-list">
+                                            {comment.replies.map((reply, index) => (
+                                                <div key={index} className="reply-comment-content">
+                                                    <span className="reply-nickname">익명</span>
+                                                    <span className="reply-timestamp">{formatDate(reply.timestamp)}</span>
+                                                    <p>{reply.content}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>
