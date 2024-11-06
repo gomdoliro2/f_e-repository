@@ -234,14 +234,12 @@ textarea {
     padding-bottom: 1%;
 }
 
-/* 대댓글 프로필 사진 */
 .reply-profile-pic {
-    width: 40px;
-    height: 40px;
+    width: 5%;
+    height: 5%;
     border-radius: 50%;
     margin-right: 10px;
 }
-
 
 .reply-comment-content {
     flex-grow: 1;
@@ -277,15 +275,42 @@ textarea {
 }
 
 .nested-reply-input {
+    background-color: #fff;
     display: flex;
-    width: 300%;
+    width: 330%;
     height: 10%;
     background-color: none;
     border: none;
     font-size: 20px;
+    padding: 2%;
+    color: #000;
     border-bottom: 2px solid #000;
-    margin-left: -50%;
-    margin-top: 50%;
+    margin-left: -90%;
+    margin-top: 58%;
+    white-space: nowrap;
+}
+
+.reply-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+    width: 530%;
+    text-align: left;
+    border-bottom: 1px solid #000;
+    margin-bottom: 20%;
+    padding-bottom: 30%;
+    padding-top: 10%;
+}
+
+
+.view-replies-button,
+.reply-group {
+    font-size: 20px;
+    background-color: transparent;
+    border: none;
+    color: #1F8BFF;
+    white-space: nowrap;
+    text-align: left;
 }
 
 .nested-add-comment-button {
@@ -323,6 +348,7 @@ textarea {
     display: flex;
     gap: 8px;
     margin-top: 5px;
+    color: #000;
 }
 
 .nested-add-comment-button,

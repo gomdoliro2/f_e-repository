@@ -12,8 +12,9 @@ const Comment = ({ postId }) => {
     const [editCommentText, setEditCommentText] = useState('');
     const [loading, setLoading] = useState(false);
     const [nickname] = useState('익명');
-    const [replyVisibleCommentId, setReplyVisibleCommentId] = useState(null); 
+    const [replyVisibleCommentId, setReplyVisibleCommentId] = useState(null);
     const [replyContent, setReplyContent] = useState('');
+    const [showReplies, setShowReplies] = useState({});
 
     useEffect(() => {
         const loadComments = async () => {
@@ -113,9 +114,15 @@ const Comment = ({ postId }) => {
             });
             setComments(updatedComments);
             setReplyContent('');
+            setReplyVisibleCommentId(null);
+            setShowReplies((prev) => ({ ...prev, [commentId]: true })); 
         } else {
             alert("답글을 입력해 주세요.");
         }
+    };
+
+    const toggleRepliesVisibility = (commentId) => {
+        setShowReplies((prev) => ({ ...prev, [commentId]: !prev[commentId] }));
     };
 
     return (
@@ -165,12 +172,28 @@ const Comment = ({ postId }) => {
                                         />
                                         <button onClick={() => handleCommentDelete(comment.id)} className="comment-delete-button">삭제</button>
                                     </div>
-                                    <button 
-                                        className="reply-button" 
-                                        onClick={() => toggleReplyInput(comment.id)}
-                                    >
-                                        + 답글 달기
-                                    </button>
+                                    <div className="reply-container">
+                                        <button className="reply-button, reply-group" onClick={() => toggleReplyInput(comment.id)}>
+                                            + 답글 달기
+                                        </button>
+                                        <button 
+                                            className="view-replies-button, reply-group" 
+                                            onClick={() => toggleRepliesVisibility(comment.id)}
+                                        >
+                                            {showReplies[comment.id] ? "답글 닫기" : "답글 열기"}
+                                        </button>
+                                    </div>
+                                    {showReplies[comment.id] && comment.replies && comment.replies.length > 0 && (
+                                        <div className="replies-list">
+                                            {comment.replies.map((reply, index) => (
+                                                <div key={index} className="reply-comment-content">
+                                                    <span className="reply-nickname">익명</span>
+                                                    <span className="reply-timestamp">{formatDate(reply.timestamp)}</span>
+                                                    <p>{reply.content}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             )}
                             {replyVisibleCommentId === comment.id && (
@@ -187,17 +210,6 @@ const Comment = ({ postId }) => {
                                             <button type="button" className="nested-cancel-btn" onClick={() => setReplyContent('')}>취소</button>
                                         </div>
                                     </form>
-                                    {comment.replies && comment.replies.length > 0 && (
-                                        <div className="replies-list">
-                                            {comment.replies.map((reply, index) => (
-                                                <div key={index} className="reply-comment-content">
-                                                    <span className="reply-nickname">익명</span>
-                                                    <span className="reply-timestamp">{formatDate(reply.timestamp)}</span>
-                                                    <p>{reply.content}</p>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
                                 </div>
                             )}
                         </div>
