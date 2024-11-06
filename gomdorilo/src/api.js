@@ -48,20 +48,21 @@ export const summarizePost = async (boardId) => {
 // 게시글 수정
 export const updateBoard = async (requestData) => {
     try {
-        const response = await axios.put(`/board/update`, {
-            id: requestData.id,
-            title: requestData.title,
-            content: requestData.content,
+        const response = await axios.put('/board/update', {
+            id: requestData.id,  
+            title: requestData.title, 
+            content: requestData.content, 
         }, {
             headers: { 'Content-Type': 'application/json' },
         });
         console.log('게시글 수정 성공:', response.data);
         return response.data;
     } catch (error) {
-        console.error('게시글 수정 중 오류 발생:', error);
+        console.error('게시글 수정 중 오류 발생:', error.response ? error.response.data : error.message);
         throw error;
     }
 };
+
 
 // 게시글 삭제
 export const deleteBoard = async (boardId) => {
