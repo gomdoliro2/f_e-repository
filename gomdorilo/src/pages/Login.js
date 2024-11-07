@@ -12,7 +12,7 @@ const Login = () => {
 
     const handleSignIn = async () => {
         if (!email || !password) {
-            setError('이메일과 비밀번호를 입력해주세요.');
+            alert('이메일과 비밀번호를 입력해주세요.');
             return;
         }
 
@@ -41,7 +41,7 @@ const Login = () => {
             }
         } catch (error) {
             console.error('로그인 실패:', error);
-            setError('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
+            alert('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
         } finally {
             setLoading(false);
         }

@@ -29,7 +29,6 @@ const Post = () => {
                 setComments(boardData.comments || []);
             } catch (error) {
                 console.error("댓글 불러오기 오류:", error);
-                alert("댓글을 불러오는데 실패했습니다.");
             }
         };
         loadComments();
